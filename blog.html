@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blog — Velox Datacenter</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff;--bg2:#f5f5f5;--text:#0a0a0a;--text2:#666;--border:rgba(0,0,0,0.1);--nav-bg:rgba(255,255,255,0.94);--card-bg:#f7f7f7;--toggle-bg:#ddd}
+[data-theme="dark"]{--bg:#000000;--bg2:#141414;--text:#f0f0f0;--text2:rgba(255,255,255,0.4);--border:rgba(255,255,255,0.08);--nav-bg:#000000;--card-bg:#111;--toggle-bg:#333}
+*{margin:0;padding:0;box-sizing:border-box;transition:background 0.35s,color 0.25s,border-color 0.25s}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-weight:400;overflow-x:hidden;font-size:14px}
+canvas#pts{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+nav,section,header,footer,div{position:relative;z-index:1}
+
+nav{display:flex;justify-content:space-between;align-items:center;padding:1rem 3rem;border-bottom:0.5px solid var(--border);position:sticky;top:0;background:var(--nav-bg);backdrop-filter:blur(10px);z-index:100}
+.logo img{height:52px;object-fit:contain}
+.nav-links{display:flex;gap:2rem}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:0.72rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;transition:color 0.2s}
+.nav-links a:hover,.nav-links a.active{color:var(--text)}
+.nav-right{display:flex;align-items:center;gap:1rem}
+.lb{background:none;border:none;cursor:pointer;font-family:'Inter',sans-serif;font-size:0.68rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--text2);padding:0.2rem 0.4rem}
+.lb.on{color:var(--text);border-bottom:1px solid var(--text)}
+.lsep{color:var(--border);font-size:0.7rem}
+.tt{width:40px;height:22px;border-radius:11px;background:var(--toggle-bg);border:none;cursor:pointer;position:relative;flex-shrink:0}
+.tt::after{content:'';position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:var(--text);transition:transform 0.3s}
+[data-theme="dark"] .tt::after{transform:translateX(18px)}
+.nav-cta{border:0.5px solid var(--border);padding:0.45rem 1.1rem;font-size:0.68rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--text);text-decoration:none;transition:all 0.2s}
+.nav-cta:hover{background:var(--text);color:var(--bg)}
+
+.blog-header{padding:3.5rem 3rem 2.5rem;border-bottom:0.5px solid var(--border)}
+.blog-header-top{display:flex;justify-content:space-between;align-items:flex-end}
+.blog-tag{font-size:0.6rem;font-weight:600;letter-spacing:0.25em;text-transform:uppercase;color:var(--text2);margin-bottom:0.8rem}
+.blog-header h1{font-size:clamp(1.8rem,4vw,3rem);font-weight:700;color:var(--text);letter-spacing:-0.02em;line-height:1.1}
+.blog-header h1 em{font-style:normal;font-weight:300;color:var(--text2)}
+.blog-count{font-size:0.75rem;color:var(--text2)}
+
+.filters{display:flex;gap:0;border-bottom:0.5px solid var(--border);padding:0 3rem;overflow-x:auto}
+.filter-btn{background:none;border:none;cursor:pointer;font-family:'Inter',sans-serif;font-size:0.68rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--text2);padding:1rem 1.2rem;border-bottom:2px solid transparent;transition:all 0.2s;white-space:nowrap}
+.filter-btn:hover{color:var(--text)}
+.filter-btn.active{color:var(--text);border-bottom-color:var(--text)}
+
+.featured-post{display:grid;grid-template-columns:1.4fr 1fr;border-bottom:0.5px solid var(--border)}
+.fp-content{padding:2.5rem 3rem;border-right:0.5px solid var(--border)}
+.fp-meta{display:flex;gap:1rem;align-items:center;margin-bottom:1.2rem}
+.fp-cat{font-size:0.6rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--text2);border:0.5px solid var(--border);padding:0.2rem 0.6rem}
+.fp-date{font-size:0.6rem;color:var(--text2)}
+.fp-read{font-size:0.6rem;color:var(--text2)}
+.fp-content h2{font-size:clamp(1.3rem,2.5vw,2rem);font-weight:700;color:var(--text);line-height:1.2;letter-spacing:-0.02em;margin-bottom:0.8rem}
+.fp-content p{font-size:0.82rem;color:var(--text2);line-height:1.85;margin-bottom:1.5rem}
+.fp-author{display:flex;align-items:center;gap:0.6rem}
+.fp-av{width:28px;height:28px;border-radius:50%;background:var(--bg2);border:0.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:600;color:var(--text2)}
+.fp-aname{font-size:0.72rem;font-weight:500;color:var(--text)}
+.fp-aside{padding:2.5rem;display:flex;flex-direction:column;gap:0}
+.fp-aside-item{padding:1.5rem 0;border-bottom:0.5px solid var(--border);cursor:pointer;transition:opacity 0.2s}
+.fp-aside-item:last-child{border-bottom:none}
+.fp-aside-item:hover{opacity:0.7}
+.fas-cat{font-size:0.58rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--text2);margin-bottom:0.5rem;display:block}
+.fas-title{font-size:0.88rem;font-weight:600;color:var(--text);line-height:1.35;letter-spacing:-0.01em}
+.fas-meta{font-size:0.6rem;color:var(--text2);margin-top:0.4rem}
+
+.posts-section{padding:2.5rem 3rem}
+.posts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+.post-card{padding:1.8rem;border:0.5px solid var(--border);cursor:pointer;transition:background 0.3s}
+.post-card:hover{background:var(--card-bg)}
+.pc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem}
+.pc-cat{font-size:0.58rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--text2);border:0.5px solid var(--border);padding:0.18rem 0.55rem}
+.pc-num{font-size:1.8rem;font-weight:700;color:var(--bg2);letter-spacing:-0.03em;line-height:1}
+.post-card h3{font-size:0.95rem;font-weight:600;color:var(--text);line-height:1.4;letter-spacing:-0.01em;margin-bottom:0.6rem}
+.post-card p{font-size:0.75rem;color:var(--text2);line-height:1.75}
+.pc-footer{display:flex;justify-content:space-between;align-items:center;margin-top:1.3rem;padding-top:1rem;border-top:0.5px solid var(--border)}
+.pc-author{font-size:0.62rem;color:var(--text2)}
+.pc-arrow{font-size:0.65rem;font-weight:500;color:var(--text2);transition:color 0.2s}
+.post-card:hover .pc-arrow{color:var(--text)}
+
+.phases-bar{border-top:0.5px solid var(--border);border-bottom:0.5px solid var(--border)}
+.phases-inner{padding:2.5rem 3rem}
+.ph-label{font-size:0.6rem;font-weight:600;letter-spacing:0.25em;text-transform:uppercase;color:var(--text2);margin-bottom:1.5rem}
+.phases-track{display:flex;gap:0}
+.phase{flex:1;padding:1.5rem;border:0.5px solid var(--border)}
+.ph-num{font-size:1.5rem;font-weight:700;color:var(--bg2);letter-spacing:-0.03em;line-height:1;margin-bottom:0.6rem}
+.ph-name{font-size:0.75rem;font-weight:600;color:var(--text);margin-bottom:0.4rem}
+.ph-status{display:inline-block;font-size:0.58rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;padding:0.18rem 0.55rem;border-radius:2px}
+.ph-status.done{background:var(--bg2);color:var(--text2)}
+.ph-status.active{background:var(--text);color:var(--bg)}
+.ph-status.pending{border:0.5px solid var(--border);color:var(--text2)}
+
+footer{padding:1.5rem 3rem;border-top:0.5px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.fl{font-size:0.78rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text2)}
+.flinks{display:flex;gap:1.8rem}
+.flinks a{font-size:0.62rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--text2);text-decoration:none;transition:color 0.2s}
+.flinks a:hover{color:var(--text)}
+.fc{font-size:0.6rem;color:var(--text2)}
+
+.fu{opacity:0;transform:translateY(18px);transition:opacity 0.6s ease,transform 0.6s ease}
+.fu.vis{opacity:1;transform:translateY(0)}
+.hide{display:none!important}
+</style>
+</head>
+<body>
+<canvas id="pts"></canvas>
+
+<nav>
+  <div class="logo">
+    <img src="assets/velox_fondo_blanco.png" id="nav-logo" alt="Velox Datacenter">
+  </div>
+  <div class="nav-links">
+    <a href="index.html" class="es">Nosotros</a>
+    <a href="index.html" class="en hide">About</a>
+    <a href="blog.html" class="active es">Blog</a>
+    <a href="blog.html" class="active en hide">Blog</a>
+    <a href="solicitud.html" class="es">Solicitud de ingreso</a>
+    <a href="solicitud.html" class="en hide">Access Request</a>
+  </div>
+  <div class="nav-right">
+    <div style="display:flex;align-items:center;gap:0.2rem">
+      <button class="lb on" id="bes" onclick="setLang('es')">ES</button>
+      <span class="lsep">|</span>
+      <button class="lb" id="ben" onclick="setLang('en')">EN</button>
+    </div>
+    <button class="tt" onclick="toggleTheme()" aria-label="Toggle theme"></button>
+    <a href="solicitud.html" class="nav-cta es">Solicitar acceso</a>
+    <a href="solicitud.html" class="nav-cta en hide">Request access</a>
+  </div>
+</nav>
+
+<header class="blog-header fu">
+  <div class="blog-header-top">
+    <div>
+      <p class="blog-tag es">Blog técnico — Proyecto Velox</p>
+      <p class="blog-tag en hide">Technical blog — Velox Project</p>
+      <h1 class="es">Construimos un datacenter.<br><em>Desde cero.</em></h1>
+      <h1 class="en hide">We're building a datacenter.<br><em>From scratch.</em></h1>
+    </div>
+    <span class="blog-count es">12 artículos publicados</span>
+    <span class="blog-count en hide">12 articles published</span>
+  </div>
+</header>
+
+<div class="filters fu">
+  <button class="filter-btn active es" onclick="filterCat('all',this)">Todos</button>
+  <button class="filter-btn active en hide" onclick="filterCat('all',this)">All</button>
+  <button class="filter-btn es" onclick="filterCat('proceso',this)">Proceso</button>
+  <button class="filter-btn en hide" onclick="filterCat('proceso',this)">Process</button>
+  <button class="filter-btn es" onclick="filterCat('tutorial',this)">Tutorial</button>
+  <button class="filter-btn en hide" onclick="filterCat('tutorial',this)">Tutorial</button>
+  <button class="filter-btn es" onclick="filterCat('red',this)">Red</button>
+  <button class="filter-btn en hide" onclick="filterCat('red',this)">Network</button>
+  <button class="filter-btn es" onclick="filterCat('hardware',this)">Hardware</button>
+  <button class="filter-btn en hide" onclick="filterCat('hardware',this)">Hardware</button>
+</div>
+
+<div class="featured-post fu">
+  <div class="fp-content">
+    <div class="fp-meta">
+      <span class="fp-cat es">Proceso</span>
+      <span class="fp-cat en hide">Process</span>
+      <span class="fp-date">14 Mayo, 2026</span>
+      <span class="fp-read es">8 min lectura</span>
+      <span class="fp-read en hide">8 min read</span>
+    </div>
+    <h2 class="es">Cómo diseñamos el layout físico de nuestra maqueta de datacenter</h2>
+    <h2 class="en hide">How we designed the physical layout of our datacenter scale model</h2>
+    <p class="es">Antes de poner un solo cable, necesitamos planos. En este artículo explicamos cómo definimos el espacio, la distribución de racks y los flujos de aire frío y caliente en una maqueta a escala.</p>
+    <p class="en hide">Before placing a single cable, we needed blueprints. We explain how we defined the space, rack distribution and hot/cold airflow paths in a scale model.</p>
+    <div class="fp-author">
+      <div class="fp-av">SR</div>
+      <span class="fp-aname">Sharelyn R.</span>
+    </div>
+  </div>
+  <div class="fp-aside">
+    <div class="fp-aside-item">
+      <span class="fas-cat">Tutorial</span>
+      <div class="fas-title es">Cableado estructurado en espacio reducido: lecciones aprendidas</div>
+      <div class="fas-title en hide">Structured cabling in reduced space: lessons learned</div>
+      <div class="fas-meta">8 Mayo · 6 min</div>
+    </div>
+    <div class="fp-aside-item">
+      <span class="fas-cat es">Hardware</span>
+      <span class="fas-cat en hide">Hardware</span>
+      <div class="fas-title es">Seleccionando el hardware: qué usamos y por qué</div>
+      <div class="fas-title en hide">Selecting hardware: what we use and why</div>
+      <div class="fas-meta">1 Mayo · 5 min</div>
+    </div>
+    <div class="fp-aside-item">
+      <span class="fas-cat es">Red</span>
+      <span class="fas-cat en hide">Network</span>
+      <div class="fas-title es">VLANs en switches de bajo costo: guía práctica</div>
+      <div class="fas-title en hide">VLANs on budget switches: practical guide</div>
+      <div class="fas-meta">25 Abr · 7 min</div>
+    </div>
+  </div>
+</div>
+
+<section class="posts-section fu">
+  <div class="posts-grid">
+    <div class="post-card" data-cat="tutorial">
+      <div class="pc-top"><span class="pc-cat">Tutorial</span><span class="pc-num">04</span></div>
+      <h3 class="es">Simulando redundancia de energía con baterías 18650</h3>
+      <h3 class="en hide">Simulating power redundancy with 18650 batteries</h3>
+      <p class="es">Cómo construimos un sistema UPS casero usando celdas de litio y un módulo de carga TP4056.</p>
+      <p class="en hide">How we built a DIY UPS system using lithium cells and a TP4056 charging module.</p>
+      <div class="pc-footer"><span class="pc-author">Carlos M. · 20 Abr</span><span class="pc-arrow">→</span></div>
+    </div>
+    <div class="post-card" data-cat="proceso">
+      <div class="pc-top"><span class="pc-cat es">Proceso</span><span class="pc-cat en hide">Process</span><span class="pc-num">05</span></div>
+      <h3 class="es">Monitoreo de temperatura con sensores DHT22 y Grafana</h3>
+      <h3 class="en hide">Temperature monitoring with DHT22 sensors and Grafana</h3>
+      <p class="es">Instalamos sensores en cada rack y visualizamos los datos en tiempo real con Grafana local.</p>
+      <p class="en hide">We installed sensors in each rack and visualized data in real time with local Grafana.</p>
+      <div class="pc-footer"><span class="pc-author">Sharelyn R. · 15 Abr</span><span class="pc-arrow">→</span></div>
+    </div>
+    <div class="post-card" data-cat="proceso">
+      <div class="pc-top"><span class="pc-cat es">Proceso</span><span class="pc-cat en hide">Process</span><span class="pc-num">06</span></div>
+      <h3 class="es">¿Por qué elegimos Proxmox para la virtualización?</h3>
+      <h3 class="en hide">Why we chose Proxmox for virtualization?</h3>
+      <p class="es">Evaluamos ESXi, Proxmox y TrueNAS Scale. Aquí nuestro razonamiento y los resultados.</p>
+      <p class="en hide">We evaluated ESXi, Proxmox and TrueNAS Scale. Here's our reasoning and results.</p>
+      <div class="pc-footer"><span class="pc-author">Carlos M. · 10 Abr</span><span class="pc-arrow">→</span></div>
+    </div>
+    <div class="post-card" data-cat="hardware">
+      <div class="pc-top"><span class="pc-cat es">Hardware</span><span class="pc-cat en hide">Hardware</span><span class="pc-num">07</span></div>
+      <h3 class="es">Rack casero: construimos nuestro propio bastidor a escala</h3>
+      <h3 class="en hide">DIY rack: we built our own scale rack from scratch</h3>
+      <p class="es">MDF, impresión 3D y paciencia. Así construimos los racks físicos desde cero.</p>
+      <p class="en hide">MDF, 3D printing and patience. That's how we built our physical racks from scratch.</p>
+      <div class="pc-footer"><span class="pc-author">Luis F. · 5 Abr</span><span class="pc-arrow">→</span></div>
+    </div>
+    <div class="post-card" data-cat="red">
+      <div class="pc-top"><span class="pc-cat es">Red</span><span class="pc-cat en hide">Network</span><span class="pc-num">08</span></div>
+      <h3 class="es">Configurando pfSense como firewall de la maqueta</h3>
+      <h3 class="en hide">Setting up pfSense as the scale model firewall</h3>
+      <p class="es">Instalación, reglas básicas y segmentación de red con pfSense en hardware de bajo costo.</p>
+      <p class="en hide">Installation, basic rules and network segmentation with pfSense on low-cost hardware.</p>
+      <div class="pc-footer"><span class="pc-author">Luis F. · 1 Abr</span><span class="pc-arrow">→</span></div>
+    </div>
+    <div class="post-card" data-cat="proceso">
+      <div class="pc-top"><span class="pc-cat es">Proceso</span><span class="pc-cat en hide">Process</span><span class="pc-num">09</span></div>
+      <h3 class="es">Errores que cometimos en la fase de diseño</h3>
+      <h3 class="en hide">Mistakes we made in the design phase</h3>
+      <p class="es">Una retrospectiva honesta: qué planeamos mal y qué cambiaríamos si empezáramos de nuevo.</p>
+      <p class="en hide">An honest retrospective: what we planned wrong and what we'd change if starting over.</p>
+      <div class="pc-footer"><span class="pc-author">Sharelyn R. · 28 Mar</span><span class="pc-arrow">→</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="phases-bar fu">
+  <div class="phases-inner">
+    <p class="ph-label es">Fases del proyecto</p>
+    <p class="ph-label en hide">Project phases</p>
+    <div class="phases-track">
+      <div class="phase"><div class="ph-num">01</div><div class="ph-name es">Diseño</div><div class="ph-name en hide">Design</div><span class="ph-status done es">Completada</span><span class="ph-status done en hide">Done</span></div>
+      <div class="phase"><div class="ph-num">02</div><div class="ph-name es">Construcción</div><div class="ph-name en hide">Build</div><span class="ph-status active es">En progreso</span><span class="ph-status active en hide">In progress</span></div>
+      <div class="phase"><div class="ph-num">03</div><div class="ph-name es">Red</div><div class="ph-name en hide">Network</div><span class="ph-status pending es">Pendiente</span><span class="ph-status pending en hide">Pending</span></div>
+      <div class="phase"><div class="ph-num">04</div><div class="ph-name es">Soporte</div><div class="ph-name en hide">Support</div><span class="ph-status pending es">Pendiente</span><span class="ph-status pending en hide">Pending</span></div>
+      <div class="phase"><div class="ph-num">05</div><div class="ph-name es">Docs</div><span class="ph-status pending es">Pendiente</span><span class="ph-status pending en hide">Pending</span></div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span class="fl">Velox Datacenter</span>
+  <div class="flinks">
+    <a href="index.html" class="es">Inicio</a><a href="index.html" class="en hide">Home</a>
+    <a href="blog.html">Blog</a>
+    <a href="solicitud.html" class="es">Acceso</a><a href="solicitud.html" class="en hide">Access</a>
+  </div>
+  <span class="fc">© 2026 Velox Datacenter</span>
+</footer>
+
+<script>
+const c=document.getElementById('pts'),x=c.getContext('2d');
+let W,H,p=[];
+function rsz(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;}
+rsz();window.addEventListener('resize',rsz);
+for(let i=0;i<65;i++)p.push({x:Math.random()*window.innerWidth,y:Math.random()*window.innerHeight,vx:(Math.random()-.5)*.12,vy:(Math.random()-.5)*.12,r:Math.random()*1.1+.4});
+function gc(){return document.documentElement.getAttribute('data-theme')==='dark'?'rgba(255,255,255,0.25)':'rgba(0,0,0,0.12)';}
+function gl(a){return document.documentElement.getAttribute('data-theme')==='dark'?`rgba(255,255,255,${a})`:`rgba(0,0,0,${a})`;}
+function draw(){
+  x.clearRect(0,0,W,H);
+  for(let i=0;i<p.length;i++){
+    const a=p[i];a.x+=a.vx;a.y+=a.vy;
+    if(a.x<0)a.x=W;if(a.x>W)a.x=0;if(a.y<0)a.y=H;if(a.y>H)a.y=0;
+    x.beginPath();x.arc(a.x,a.y,a.r,0,Math.PI*2);x.fillStyle=gc();x.fill();
+    for(let j=i+1;j<p.length;j++){
+      const b=p[j],dx=a.x-b.x,dy=a.y-b.y,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<120){x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.strokeStyle=gl(.05*(1-d/120));x.lineWidth=.4;x.stroke();}
+    }
+  }
+  requestAnimationFrame(draw);
+}
+draw();
+
+function toggleTheme(){
+  const h=document.documentElement;
+  const isDark=h.getAttribute('data-theme')==='dark';
+  h.setAttribute('data-theme',isDark?'light':'dark');
+  document.getElementById('nav-logo').src=isDark?'assets/velox_fondo_blanco.png':'assets/velox_fondo_negro.png';
+  
+}
+function setLang(l){
+  document.querySelectorAll('.es').forEach(e=>e.classList.toggle('hide',l!=='es'));
+  document.querySelectorAll('.en').forEach(e=>e.classList.toggle('hide',l!=='en'));
+  document.getElementById('bes').classList.toggle('on',l==='es');
+  document.getElementById('ben').classList.toggle('on',l==='en');
+}
+function filterCat(cat,btn){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.post-card').forEach(card=>{
+    card.style.display=(cat==='all'||card.dataset.cat===cat)?'block':'none';
+  });
+}
+const ob=new IntersectionObserver(e=>e.forEach(i=>{if(i.isIntersecting)i.target.classList.add('vis');}),{threshold:0.07});
+document.querySelectorAll('.fu').forEach(e=>ob.observe(e));
+</script>
+</body>
+</html>

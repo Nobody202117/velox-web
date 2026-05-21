@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Velox Datacenter</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff;--bg2:#f5f5f5;--text:#0a0a0a;--text2:#666;--border:rgba(0,0,0,0.1);--nav-bg:rgba(255,255,255,0.94);--card-bg:#f7f7f7;--toggle-bg:#ddd}
+[data-theme="dark"]{--bg:#000000;--bg2:#141414;--text:#f0f0f0;--text2:rgba(255,255,255,0.4);--border:rgba(255,255,255,0.08);--nav-bg:#000000;--card-bg:#111;--toggle-bg:#333}
+*{margin:0;padding:0;box-sizing:border-box;transition:background 0.35s,color 0.25s,border-color 0.25s}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-weight:400;overflow-x:hidden;font-size:14px}
+canvas#pts{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+nav,section,div.stats,div.about,footer{position:relative;z-index:1}
+
+nav{display:flex;justify-content:space-between;align-items:center;padding:1rem 3rem;border-bottom:0.5px solid var(--border);position:sticky;top:0;background:var(--nav-bg);backdrop-filter:blur(10px);z-index:100}
+.logo img{height:52px;object-fit:contain}
+.nav-links{display:flex;gap:2rem}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:0.72rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;transition:color 0.2s}
+.nav-links a:hover{color:var(--text)}
+.nav-right{display:flex;align-items:center;gap:1rem}
+.lang-toggle{display:flex;align-items:center;gap:0.2rem}
+.lb{background:none;border:none;cursor:pointer;font-family:'Inter',sans-serif;font-size:0.68rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--text2);padding:0.2rem 0.4rem;transition:color 0.2s}
+.lb.on{color:var(--text);border-bottom:1px solid var(--text)}
+.lb:hover{color:var(--text)}
+.lsep{color:var(--border);font-size:0.7rem}
+.tt{width:40px;height:22px;border-radius:11px;background:var(--toggle-bg);border:none;cursor:pointer;position:relative;flex-shrink:0}
+.tt::after{content:'';position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:var(--text);transition:transform 0.3s}
+[data-theme="dark"] .tt::after{transform:translateX(18px)}
+.nav-cta{border:0.5px solid var(--border);padding:0.45rem 1.1rem;font-size:0.68rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--text);text-decoration:none;transition:all 0.2s}
+.nav-cta:hover{background:var(--text);color:var(--bg)}
+
+.hero{min-height:88vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:2rem;position:relative}
+.hero-tag{font-size:0.62rem;font-weight:500;letter-spacing:0.25em;text-transform:uppercase;color:var(--text2);margin-bottom:1.5rem;border:0.5px solid var(--border);padding:0.35rem 1rem;display:inline-block}
+.hero h1{font-size:clamp(2.8rem,7vw,5.5rem);font-weight:700;line-height:1.05;letter-spacing:-0.03em;color:var(--text);margin-bottom:1rem}
+.hero h1 em{font-style:normal;font-weight:300;color:var(--text2)}
+.hero p{font-size:0.88rem;color:var(--text2);max-width:440px;line-height:1.8;margin-bottom:2.2rem;font-weight:400}
+.hero-actions{display:flex;gap:1rem;align-items:center}
+.btn-p{background:var(--text);color:var(--bg);padding:0.75rem 1.8rem;font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;transition:opacity 0.2s;font-family:'Inter',sans-serif}
+.btn-p:hover{opacity:0.75}
+.btn-g{color:var(--text2);font-size:0.72rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;transition:color 0.2s}
+.btn-g:hover{color:var(--text)}
+.scroll-hint{position:absolute;bottom:1.8rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:0.4rem;color:var(--text2);font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase}
+.sline{width:0.5px;height:40px;background:linear-gradient(to bottom,var(--text2),transparent);animation:sa 2s ease-in-out infinite}
+@keyframes sa{0%,100%{opacity:0.2}50%{opacity:0.7}}
+
+.stats{display:grid;grid-template-columns:repeat(4,1fr);border-top:0.5px solid var(--border);border-bottom:0.5px solid var(--border)}
+.si{padding:1.8rem 1.5rem;border-right:0.5px solid var(--border);text-align:center}
+.si:last-child{border-right:none}
+.sn{font-size:2rem;font-weight:700;color:var(--text);display:block;line-height:1;letter-spacing:-0.02em}
+.sl{font-size:0.6rem;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;color:var(--text2);margin-top:0.4rem;display:block}
+
+.about{display:grid;grid-template-columns:1fr 1fr;border-bottom:0.5px solid var(--border)}
+.al{padding:3.5rem;border-right:0.5px solid var(--border)}
+.at{font-size:0.6rem;font-weight:600;letter-spacing:0.25em;text-transform:uppercase;color:var(--text2);margin-bottom:1rem}
+.al h2{font-size:clamp(1.6rem,3vw,2.4rem);font-weight:700;color:var(--text);line-height:1.15;letter-spacing:-0.02em}
+.al h2 em{font-style:normal;font-weight:300;color:var(--text2)}
+.ar{padding:3.5rem;display:flex;flex-direction:column;justify-content:center;gap:1rem}
+.ar p{font-size:0.82rem;color:var(--text2);line-height:1.85}
+.ar p strong{color:var(--text);font-weight:500}
+
+.bp{padding:3.5rem;border-bottom:0.5px solid var(--border)}
+.sh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:2rem}
+.slabel{font-size:0.6rem;font-weight:600;letter-spacing:0.25em;text-transform:uppercase;color:var(--text2)}
+.slink{font-size:0.65rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--text2);text-decoration:none;transition:color 0.2s}
+.slink:hover{color:var(--text)}
+.bgrid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:0}
+.bm{padding:1.8rem;border:0.5px solid var(--border);cursor:pointer;transition:background 0.3s}
+.bm:hover{background:var(--card-bg)}
+.bs{display:flex;flex-direction:column}
+.bsi{padding:1.4rem 1.6rem;border:0.5px solid var(--border);border-left:none;flex:1;cursor:pointer;transition:background 0.3s;display:flex;flex-direction:column;justify-content:space-between}
+.bsi:first-child{border-bottom:none}
+.bsi:hover{background:var(--card-bg)}
+.bcat{font-size:0.58rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--text2);margin-bottom:0.6rem;display:block}
+.btitle{font-size:1rem;font-weight:600;color:var(--text);line-height:1.35;margin-bottom:0.5rem;letter-spacing:-0.01em}
+.bm .btitle{font-size:1.3rem}
+.bexc{font-size:0.75rem;color:var(--text2);line-height:1.75;margin-bottom:1rem}
+.bmeta{font-size:0.6rem;color:var(--text2)}
+.barrow{font-size:0.62rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--text2);margin-top:auto;transition:color 0.2s}
+.bsi:hover .barrow{color:var(--text)}
+
+.team{padding:3.5rem;border-bottom:0.5px solid var(--border)}
+.tgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:2rem}
+.tc{padding:1.8rem;border:0.5px solid var(--border);text-align:center;transition:background 0.3s}
+.tc:hover{background:var(--card-bg)}
+.av{width:48px;height:48px;border-radius:50%;background:var(--bg2);border:0.5px solid var(--border);display:flex;align-items:center;justify-content:center;margin:0 auto 0.8rem;font-size:1rem;font-weight:600;color:var(--text2)}
+.tn{font-size:0.82rem;font-weight:600;color:var(--text);margin-bottom:0.25rem;letter-spacing:-0.01em}
+.tr{font-size:0.62rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--text2)}
+
+.ctas{padding:4rem 3.5rem;text-align:center;border-bottom:0.5px solid var(--border)}
+.ctas h2{font-size:clamp(1.8rem,4vw,3rem);font-weight:700;color:var(--text);line-height:1.1;margin-bottom:0.8rem;letter-spacing:-0.02em}
+.ctas h2 em{font-style:normal;font-weight:300;color:var(--text2)}
+.ctas p{color:var(--text2);font-size:0.82rem;margin-bottom:2rem;line-height:1.7}
+
+footer{padding:1.5rem 3rem;display:flex;justify-content:space-between;align-items:center}
+.fl{font-size:0.78rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text2)}
+.flinks{display:flex;gap:1.8rem}
+.flinks a{font-size:0.62rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--text2);text-decoration:none;transition:color 0.2s}
+.flinks a:hover{color:var(--text)}
+.fc{font-size:0.6rem;color:var(--text2)}
+
+.fu{opacity:0;transform:translateY(18px);transition:opacity 0.6s ease,transform 0.6s ease}
+.fu.vis{opacity:1;transform:translateY(0)}
+.hide{display:none!important}
+</style>
+</head>
+<body>
+<canvas id="pts"></canvas>
+
+<nav>
+  <div class="logo">
+    <img src="assets/velox_fondo_blanco.png" id="nav-logo" alt="Velox Datacenter">
+  </div>
+  <div class="nav-links">
+    <a href="#nosotros" class="es">Nosotros</a>
+    <a href="#nosotros" class="en hide">About</a>
+    <a href="blog.html" class="es">Blog</a>
+    <a href="blog.html" class="en hide">Blog</a>
+    <a href="solicitud.html" class="es">Solicitud de ingreso</a>
+    <a href="solicitud.html" class="en hide">Access Request</a>
+  </div>
+  <div class="nav-right">
+    <div class="lang-toggle">
+      <button class="lb on" id="bes" onclick="setLang('es')">ES</button>
+      <span class="lsep">|</span>
+      <button class="lb" id="ben" onclick="setLang('en')">EN</button>
+    </div>
+    <button class="tt" onclick="toggleTheme()" aria-label="Toggle theme"></button>
+    <a href="solicitud.html" class="nav-cta es">Solicitar acceso</a>
+    <a href="solicitud.html" class="nav-cta en hide">Request access</a>
+  </div>
+</nav>
+
+<section class="hero fu">
+  <span class="hero-tag es">Datacenter · Maqueta · Proyecto</span>
+  <span class="hero-tag en hide">Datacenter · Scale model · Project</span>
+  <h1 class="es">Infraestructura<br><em>desde cero.</em></h1>
+  <h1 class="en hide">Infrastructure<br><em>from scratch.</em></h1>
+  <p class="es">Somos un equipo construyendo una maqueta de datacenter funcional. Documentamos cada decisión, cada error y cada avance.</p>
+  <p class="en hide">We're a team building a functional datacenter scale model. We document every decision, every mistake, and every milestone.</p>
+  <div class="hero-actions">
+    <a href="blog.html" class="btn-p es">Ver el blog</a>
+    <a href="blog.html" class="btn-p en hide">Read the blog</a>
+    <a href="solicitud.html" class="btn-g es">Solicitar ingreso →</a>
+    <a href="solicitud.html" class="btn-g en hide">Request access →</a>
+  </div>
+  <div class="scroll-hint"><span>Scroll</span><div class="sline"></div></div>
+</section>
+
+<div class="stats fu">
+  <div class="si"><span class="sn">5</span><span class="sl es">Fases del proyecto</span><span class="sl en hide">Project phases</span></div>
+  <div class="si"><span class="sn">12+</span><span class="sl es">Artículos publicados</span><span class="sl en hide">Published articles</span></div>
+  <div class="si"><span class="sn">Tier III</span><span class="sl es">Estándar objetivo</span><span class="sl en hide">Target standard</span></div>
+  <div class="si"><span class="sn">2026</span><span class="sl es">Año de inicio</span><span class="sl en hide">Year started</span></div>
+</div>
+
+<div class="about fu" id="nosotros">
+  <div class="al">
+    <p class="at es">Quiénes somos</p>
+    <p class="at en hide">Who we are</p>
+    <h2 class="es">Un proyecto<br>técnico <em>real.</em></h2>
+    <h2 class="en hide">A real<br>technical <em>project.</em></h2>
+  </div>
+  <div class="ar">
+    <p class="es">Velox Datacenter nació como un proyecto con una meta clara: <strong>construir una maqueta funcional de datacenter</strong> aplicando estándares reales de la industria.</p>
+    <p class="en hide">Velox Datacenter started with a clear goal: <strong>build a functional datacenter scale model</strong> applying real industry standards.</p>
+    <p class="es">Documentamos cada fase en nuestro blog para que <strong>otros equipos puedan aprender del proceso</strong>. También operamos un espacio de visitas controlado.</p>
+    <p class="en hide">We document every phase on our blog so <strong>other teams can learn from the process</strong>. We also operate a controlled visit space.</p>
+  </div>
+</div>
+
+<section class="bp fu">
+  <div class="sh">
+    <span class="slabel es">Últimas del blog</span>
+    <span class="slabel en hide">Latest from the blog</span>
+    <a href="blog.html" class="slink es">Ver todos →</a>
+    <a href="blog.html" class="slink en hide">View all →</a>
+  </div>
+  <div class="bgrid">
+    <div class="bm">
+      <span class="bcat es">Proceso</span><span class="bcat en hide">Process</span>
+      <h3 class="btitle es">Cómo diseñamos el layout físico de nuestra maqueta</h3>
+      <h3 class="btitle en hide">How we designed the physical layout of our scale model</h3>
+      <p class="bexc es">Antes de poner un solo cable, necesitamos planos. Cómo definimos el espacio, distribución de racks y flujos de aire.</p>
+      <p class="bexc en hide">Before placing a single cable, we needed blueprints. How we defined space, rack distribution and airflow.</p>
+      <span class="bmeta">14 Mayo, 2026 · 8 min</span>
+    </div>
+    <div class="bs">
+      <div class="bsi">
+        <div><span class="bcat">Tutorial</span>
+        <h4 class="btitle es">Cableado estructurado en espacio reducido</h4>
+        <h4 class="btitle en hide">Structured cabling in reduced space</h4></div>
+        <span class="barrow">→</span>
+      </div>
+      <div class="bsi">
+        <div><span class="bcat es">Proceso</span><span class="bcat en hide">Process</span>
+        <h4 class="btitle es">Hardware: qué usamos y por qué</h4>
+        <h4 class="btitle en hide">Hardware: what we use and why</h4></div>
+        <span class="barrow">→</span>
+      </div>
+    </div>
+    <div class="bs">
+      <div class="bsi">
+        <div><span class="bcat">Tutorial</span>
+        <h4 class="btitle es">VLANs en switches de bajo costo</h4>
+        <h4 class="btitle en hide">VLANs on budget switches</h4></div>
+        <span class="barrow">→</span>
+      </div>
+      <div class="bsi">
+        <div><span class="bcat">Tutorial</span>
+        <h4 class="btitle es">Monitoreo con DHT22 y Grafana</h4>
+        <h4 class="btitle en hide">Monitoring with DHT22 and Grafana</h4></div>
+        <span class="barrow">→</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="team fu">
+  <div class="sh">
+    <span class="slabel es">El equipo</span>
+    <span class="slabel en hide">The team</span>
+  </div>
+  <div class="tgrid">
+    <div class="tc"><div class="av">S</div><div class="tn">Sharelyn R.</div><div class="tr es">Redes & Datos</div><div class="tr en hide">Networks & Data</div></div>
+    <div class="tc"><div class="av">M2</div><div class="tn es">Miembro 2</div><div class="tn en hide">Member 2</div><div class="tr es">Por definir</div><div class="tr en hide">TBD</div></div>
+    <div class="tc"><div class="av">M3</div><div class="tn es">Miembro 3</div><div class="tn en hide">Member 3</div><div class="tr es">Por definir</div><div class="tr en hide">TBD</div></div>
+    <div class="tc"><div class="av">M4</div><div class="tn es">Miembro 4</div><div class="tn en hide">Member 4</div><div class="tr es">Por definir</div><div class="tr en hide">TBD</div></div>
+  </div>
+</section>
+
+<section class="ctas fu">
+  <h2 class="es">¿Quieres visitar <em>la maqueta?</em></h2>
+  <h2 class="en hide">Want to visit <em>the model?</em></h2>
+  <p class="es">El acceso es controlado. Completa tu solicitud y la revisamos en menos de 48 horas.</p>
+  <p class="en hide">Access is controlled. Complete your request and we'll review it within 48 hours.</p>
+  <a href="solicitud.html" class="btn-p es">Solicitar ingreso</a>
+  <a href="solicitud.html" class="btn-p en hide">Request access</a>
+</section>
+
+<footer>
+  <span class="fl">Velox Datacenter</span>
+  <div class="flinks">
+    <a href="#" class="es">Privacidad</a><a href="#" class="en hide">Privacy</a>
+    <a href="blog.html">Blog</a>
+    <a href="solicitud.html" class="es">Acceso</a><a href="solicitud.html" class="en hide">Access</a>
+  </div>
+  <span class="fc">© 2026 Velox Datacenter</span>
+</footer>
+
+<script>
+const c=document.getElementById('pts'),x=c.getContext('2d');
+let W,H,p=[];
+function rsz(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;}
+rsz();window.addEventListener('resize',rsz);
+for(let i=0;i<65;i++)p.push({x:Math.random()*window.innerWidth,y:Math.random()*window.innerHeight,vx:(Math.random()-.5)*.12,vy:(Math.random()-.5)*.12,r:Math.random()*1.1+.4});
+function gc(){return document.documentElement.getAttribute('data-theme')==='dark'?'rgba(255,255,255,0.25)':'rgba(0,0,0,0.12)';}
+function gl(a){return document.documentElement.getAttribute('data-theme')==='dark'?`rgba(255,255,255,${a})`:`rgba(0,0,0,${a})`;}
+function draw(){
+  x.clearRect(0,0,W,H);
+  for(let i=0;i<p.length;i++){
+    const a=p[i];a.x+=a.vx;a.y+=a.vy;
+    if(a.x<0)a.x=W;if(a.x>W)a.x=0;if(a.y<0)a.y=H;if(a.y>H)a.y=0;
+    x.beginPath();x.arc(a.x,a.y,a.r,0,Math.PI*2);x.fillStyle=gc();x.fill();
+    for(let j=i+1;j<p.length;j++){
+      const b=p[j],dx=a.x-b.x,dy=a.y-b.y,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<120){x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.strokeStyle=gl(.05*(1-d/120));x.lineWidth=.4;x.stroke();}
+    }
+  }
+  requestAnimationFrame(draw);
+}
+draw();
+
+function toggleTheme(){
+  const h=document.documentElement;
+  const isDark=h.getAttribute('data-theme')==='dark';
+  h.setAttribute('data-theme',isDark?'light':'dark');
+  document.getElementById('nav-logo').src=isDark?'assets/velox_fondo_blanco.png':'assets/velox_fondo_negro.png';
+}
+
+function setLang(l){
+  document.querySelectorAll('.es').forEach(e=>e.classList.toggle('hide',l!=='es'));
+  document.querySelectorAll('.en').forEach(e=>e.classList.toggle('hide',l!=='en'));
+  document.getElementById('bes').classList.toggle('on',l==='es');
+  document.getElementById('ben').classList.toggle('on',l==='en');
+}
+
+const ob=new IntersectionObserver(e=>e.forEach(i=>{if(i.isIntersecting)i.target.classList.add('vis');}),{threshold:0.07});
+document.querySelectorAll('.fu').forEach(e=>ob.observe(e));
+</script>
+</body>
+</html>

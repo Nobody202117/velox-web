@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solicitud de ingreso — Velox Datacenter</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff;--bg2:#f5f5f5;--text:#0a0a0a;--text2:#666;--border:rgba(0,0,0,0.1);--nav-bg:rgba(255,255,255,0.94);--card-bg:#f7f7f7;--toggle-bg:#ddd;--input-bg:#fff;--err:#c0392b;--ok:#1e7a3a}
+[data-theme="dark"]{--bg:#000000;--bg2:#141414;--text:#f0f0f0;--text2:rgba(255,255,255,0.4);--border:rgba(255,255,255,0.08);--nav-bg:#000000;--card-bg:#111;--toggle-bg:#333;--input-bg:#0a0a0a;--err:#ff6b5b;--ok:#5fd17e}
+*{margin:0;padding:0;box-sizing:border-box;transition:background 0.35s,color 0.25s,border-color 0.25s}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-weight:400;overflow-x:hidden;font-size:14px}
+canvas#pts{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+nav,section,header,footer{position:relative;z-index:1}
+
+nav{display:flex;justify-content:space-between;align-items:center;padding:1rem 3rem;border-bottom:0.5px solid var(--border);position:sticky;top:0;background:var(--nav-bg);backdrop-filter:blur(10px);z-index:100}
+.logo img{height:52px;object-fit:contain}
+.nav-links{display:flex;gap:2rem}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:0.72rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;transition:color 0.2s}
+.nav-links a:hover,.nav-links a.active{color:var(--text)}
+.nav-right{display:flex;align-items:center;gap:1rem}
+.lang-toggle{display:flex;align-items:center;gap:0.2rem}
+.lb{background:none;border:none;cursor:pointer;font-family:'Inter',sans-serif;font-size:0.68rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--text2);padding:0.2rem 0.4rem;transition:color 0.2s}
+.lb.on{color:var(--text);border-bottom:1px solid var(--text)}
+.lb:hover{color:var(--text)}
+.lsep{color:var(--border);font-size:0.7rem}
+.tt{width:40px;height:22px;border-radius:11px;background:var(--toggle-bg);border:none;cursor:pointer;position:relative;flex-shrink:0}
+.tt::after{content:'';position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:var(--text);transition:transform 0.3s}
+[data-theme="dark"] .tt::after{transform:translateX(18px)}
+
+.req-header{padding:3.5rem 3rem 2.5rem;border-bottom:0.5px solid var(--border)}
+.req-tag{font-size:0.6rem;font-weight:600;letter-spacing:0.25em;text-transform:uppercase;color:var(--text2);margin-bottom:0.8rem}
+.req-header h1{font-size:clamp(1.8rem,4vw,3rem);font-weight:700;color:var(--text);letter-spacing:-0.02em;line-height:1.1;margin-bottom:0.8rem}
+.req-header h1 em{font-style:normal;font-weight:300;color:var(--text2)}
+.req-header p{font-size:0.82rem;color:var(--text2);line-height:1.75;max-width:580px}
+
+.form-wrap{padding:3rem 3rem 4rem;max-width:980px;margin:0 auto}
+.form-section{margin-bottom:2.8rem}
+.fs-label{font-size:0.6rem;font-weight:600;letter-spacing:0.25em;text-transform:uppercase;color:var(--text2);margin-bottom:1.2rem;padding-bottom:0.6rem;border-bottom:0.5px solid var(--border);display:block}
+
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:1.3rem 1.5rem}
+.fgrid.full{grid-template-columns:1fr}
+.field{display:flex;flex-direction:column}
+.field.span2{grid-column:1/-1}
+.field label{font-size:0.62rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--text2);margin-bottom:0.45rem}
+.field label .star{color:var(--text);margin-left:0.15rem}
+.field input,.field textarea,.field select{font-family:'Inter',sans-serif;font-size:0.82rem;font-weight:400;color:var(--text);background:var(--input-bg);border:0.5px solid var(--border);padding:0.7rem 0.85rem;outline:none;width:100%;transition:border-color 0.2s,background 0.35s,color 0.25s}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:var(--text)}
+.field input::placeholder,.field textarea::placeholder{color:var(--text2);opacity:0.6}
+.field textarea{min-height:90px;resize:vertical;line-height:1.6}
+.field .hint{font-size:0.62rem;color:var(--text2);margin-top:0.35rem;line-height:1.4}
+.field .err{font-size:0.62rem;color:var(--err);margin-top:0.35rem;line-height:1.4;display:none}
+.field.invalid input,.field.invalid textarea{border-color:var(--err)}
+.field.invalid .err{display:block}
+
+.time-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.3rem 1.5rem}
+.time-warning{grid-column:1/-1;font-size:0.7rem;color:var(--text2);padding:0.7rem 0.9rem;border:0.5px solid var(--border);background:var(--bg2);margin-top:0.4rem}
+.time-warning.bad{color:var(--err);border-color:var(--err)}
+.time-warning.ok{color:var(--ok);border-color:var(--ok)}
+
+.companions{margin-top:1.5rem;display:flex;flex-direction:column;gap:1rem}
+.companion{border:0.5px solid var(--border);padding:1.3rem 1.5rem;position:relative;background:var(--bg2)}
+.comp-head{font-size:0.6rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--text2);margin-bottom:1rem;display:flex;justify-content:space-between;align-items:center}
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem 1.3rem}
+.comp-empty{font-size:0.75rem;color:var(--text2);padding:1.2rem 1.5rem;border:0.5px dashed var(--border);text-align:center}
+
+.submit-row{margin-top:2.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.submit-note{font-size:0.7rem;color:var(--text2);max-width:480px;line-height:1.6}
+.btn-submit{background:var(--text);color:var(--bg);padding:0.85rem 2rem;font-size:0.72rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;border:none;cursor:pointer;font-family:'Inter',sans-serif;transition:opacity 0.2s}
+.btn-submit:hover{opacity:0.78}
+.btn-submit:disabled{opacity:0.45;cursor:not-allowed}
+
+.form-message{margin-top:1.8rem;padding:1.2rem 1.4rem;border:0.5px solid var(--border);font-size:0.78rem;line-height:1.65;display:none}
+.form-message.show{display:block}
+.form-message.ok{border-color:var(--ok);color:var(--ok)}
+.form-message.bad{border-color:var(--err);color:var(--err)}
+
+footer{padding:1.5rem 3rem;border-top:0.5px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.fl{font-size:0.78rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text2)}
+.flinks{display:flex;gap:1.8rem}
+.flinks a{font-size:0.62rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--text2);text-decoration:none;transition:color 0.2s}
+.flinks a:hover{color:var(--text)}
+.fc{font-size:0.6rem;color:var(--text2)}
+
+.fu{opacity:0;transform:translateY(18px);transition:opacity 0.6s ease,transform 0.6s ease}
+.fu.vis{opacity:1;transform:translateY(0)}
+.hide{display:none!important}
+
+@media (max-width:720px){
+  nav{padding:1rem 1.2rem}
+  .nav-links{display:none}
+  .req-header,.form-wrap,footer{padding-left:1.2rem;padding-right:1.2rem}
+  .fgrid,.time-grid,.comp-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<canvas id="pts"></canvas>
+
+<nav>
+  <div class="logo">
+    <img src="assets/velox_fondo_blanco.png" id="nav-logo" alt="Velox Datacenter">
+  </div>
+  <div class="nav-links">
+    <a href="index.html" class="es">Nosotros</a>
+    <a href="index.html" class="en hide">About</a>
+    <a href="blog.html" class="es">Blog</a>
+    <a href="blog.html" class="en hide">Blog</a>
+    <a href="solicitud.html" class="active es">Solicitud de ingreso</a>
+    <a href="solicitud.html" class="active en hide">Access Request</a>
+  </div>
+  <div class="nav-right">
+    <div class="lang-toggle">
+      <button class="lb on" id="bes" onclick="setLang('es')">ES</button>
+      <span class="lsep">|</span>
+      <button class="lb" id="ben" onclick="setLang('en')">EN</button>
+    </div>
+    <button class="tt" onclick="toggleTheme()" aria-label="Toggle theme"></button>
+  </div>
+</nav>
+
+<header class="req-header fu">
+  <p class="req-tag es">Acceso controlado</p>
+  <p class="req-tag en hide">Controlled access</p>
+  <h1 class="es">Solicitud de <em>ingreso</em></h1>
+  <h1 class="en hide">Access <em>request</em></h1>
+  <p class="es">Completa el formulario para visitar la maqueta. Revisamos cada solicitud en menos de 48 horas y respondemos al correo proporcionado.</p>
+  <p class="en hide">Fill out the form to visit the scale model. We review each request within 48 hours and reply to the email provided.</p>
+</header>
+
+<section class="form-wrap fu">
+  <form id="reqForm" novalidate>
+
+    <!-- DATOS DEL SOLICITANTE -->
+    <div class="form-section">
+      <span class="fs-label es">Datos del solicitante</span>
+      <span class="fs-label en hide">Applicant information</span>
+      <div class="fgrid">
+        <div class="field">
+          <label class="es" for="nombre">Nombre completo <span class="star">*</span></label>
+          <label class="en hide" for="nombre">Full name <span class="star">*</span></label>
+          <input type="text" id="nombre" name="nombre" required autocomplete="name">
+          <span class="err es">Ingresa tu nombre completo.</span>
+          <span class="err en hide">Please enter your full name.</span>
+        </div>
+        <div class="field">
+          <label class="es" for="correo">Correo electrónico <span class="star">*</span></label>
+          <label class="en hide" for="correo">Email <span class="star">*</span></label>
+          <input type="email" id="correo" name="correo" required autocomplete="email">
+          <span class="err es">Ingresa un correo válido.</span>
+          <span class="err en hide">Enter a valid email.</span>
+        </div>
+        <div class="field">
+          <label class="es" for="empresa">Empresa u organización <span class="star">*</span></label>
+          <label class="en hide" for="empresa">Company or organization <span class="star">*</span></label>
+          <input type="text" id="empresa" name="empresa" required>
+          <span class="err es">Indica tu empresa u organización.</span>
+          <span class="err en hide">Please enter your company or organization.</span>
+        </div>
+        <div class="field">
+          <label class="es" for="dpi">Número de DPI <span class="star">*</span></label>
+          <label class="en hide" for="dpi">DPI number <span class="star">*</span></label>
+          <input type="text" id="dpi" name="dpi" required inputmode="numeric" pattern="\d{13}" maxlength="13">
+          <span class="hint es">13 dígitos, sin guiones ni espacios.</span>
+          <span class="hint en hide">13 digits, no dashes or spaces.</span>
+          <span class="err es">El DPI debe tener exactamente 13 dígitos.</span>
+          <span class="err en hide">DPI must be exactly 13 digits.</span>
+        </div>
+        <div class="field span2">
+          <label class="es" for="motivo">Motivo de la visita <span class="star">*</span></label>
+          <label class="en hide" for="motivo">Reason for visit <span class="star">*</span></label>
+          <textarea id="motivo" name="motivo" required placeholder="Ej: Visita técnica para conocer la implementación de cableado estructurado y monitoreo ambiental..."></textarea>
+          <span class="err es">Describe brevemente el motivo de tu visita.</span>
+          <span class="err en hide">Briefly describe the reason for your visit.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- FECHA Y HORARIO -->
+    <div class="form-section">
+      <span class="fs-label es">Fecha y horario</span>
+      <span class="fs-label en hide">Date and schedule</span>
+      <div class="time-grid">
+        <div class="field">
+          <label class="es" for="fecha">Fecha de ingreso <span class="star">*</span></label>
+          <label class="en hide" for="fecha">Visit date <span class="star">*</span></label>
+          <input type="date" id="fecha" name="fecha" required>
+          <span class="err es">Selecciona la fecha de ingreso.</span>
+          <span class="err en hide">Select the visit date.</span>
+        </div>
+        <div class="field"></div>
+        <div class="field">
+          <label class="es" for="entrada">Hora de entrada <span class="star">*</span></label>
+          <label class="en hide" for="entrada">Entry time <span class="star">*</span></label>
+          <input type="time" id="entrada" name="entrada" required>
+          <span class="err es">Selecciona la hora de entrada.</span>
+          <span class="err en hide">Select the entry time.</span>
+        </div>
+        <div class="field">
+          <label class="es" for="salida">Hora de salida <span class="star">*</span></label>
+          <label class="en hide" for="salida">Exit time <span class="star">*</span></label>
+          <input type="time" id="salida" name="salida" required>
+          <span class="err es">Selecciona la hora de salida.</span>
+          <span class="err en hide">Select the exit time.</span>
+        </div>
+        <div class="time-warning" id="timeWarning">
+          <span class="es">La duración máxima permitida por visita es de 4 horas.</span>
+          <span class="en hide">Maximum visit duration is 4 hours.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACOMPAÑANTES -->
+    <div class="form-section">
+      <span class="fs-label es">Personas que ingresan</span>
+      <span class="fs-label en hide">People entering</span>
+      <div class="fgrid">
+        <div class="field">
+          <label class="es" for="numPersonas">Total de personas (incluyéndote) <span class="star">*</span></label>
+          <label class="en hide" for="numPersonas">Total people (including you) <span class="star">*</span></label>
+          <input type="number" id="numPersonas" name="numPersonas" required min="1" max="15" value="1">
+          <span class="hint es">Si solo ingresas tú, deja el valor en 1. Máximo 15 personas.</span>
+          <span class="hint en hide">If only you are entering, leave it at 1. Maximum 15 people.</span>
+        </div>
+      </div>
+      <div class="companions" id="companions">
+        <div class="comp-empty">
+          <span class="es">No hay acompañantes adicionales.</span>
+          <span class="en hide">No additional companions.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="submit-row">
+      <p class="submit-note es">Al enviar, los datos llegan al equipo de Velox Datacenter. Recibirás un correo con la respuesta dentro de las próximas 48 horas.</p>
+      <p class="submit-note en hide">When submitted, the data is sent to the Velox Datacenter team. You will receive a reply email within the next 48 hours.</p>
+      <button type="submit" class="btn-submit" id="btnSubmit">
+        <span class="es">Enviar solicitud</span>
+        <span class="en hide">Submit request</span>
+      </button>
+    </div>
+
+    <div class="form-message" id="formMsg"></div>
+  </form>
+</section>
+
+<footer>
+  <span class="fl">Velox Datacenter</span>
+  <div class="flinks">
+    <a href="index.html" class="es">Inicio</a><a href="index.html" class="en hide">Home</a>
+    <a href="blog.html">Blog</a>
+    <a href="solicitud.html" class="es">Acceso</a><a href="solicitud.html" class="en hide">Access</a>
+  </div>
+  <span class="fc">© 2026 Velox Datacenter</span>
+</footer>
+
+<script>
+// ============ PARTÍCULAS (mismo script que index/blog) ============
+const c=document.getElementById('pts'),x=c.getContext('2d');
+let W,H,p=[];
+function rsz(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;}
+rsz();window.addEventListener('resize',rsz);
+for(let i=0;i<65;i++)p.push({x:Math.random()*window.innerWidth,y:Math.random()*window.innerHeight,vx:(Math.random()-.5)*.12,vy:(Math.random()-.5)*.12,r:Math.random()*1.1+.4});
+function gc(){return document.documentElement.getAttribute('data-theme')==='dark'?'rgba(255,255,255,0.25)':'rgba(0,0,0,0.12)';}
+function gl(a){return document.documentElement.getAttribute('data-theme')==='dark'?`rgba(255,255,255,${a})`:`rgba(0,0,0,${a})`;}
+function draw(){
+  x.clearRect(0,0,W,H);
+  for(let i=0;i<p.length;i++){
+    const a=p[i];a.x+=a.vx;a.y+=a.vy;
+    if(a.x<0)a.x=W;if(a.x>W)a.x=0;if(a.y<0)a.y=H;if(a.y>H)a.y=0;
+    x.beginPath();x.arc(a.x,a.y,a.r,0,Math.PI*2);x.fillStyle=gc();x.fill();
+    for(let j=i+1;j<p.length;j++){
+      const b=p[j],dx=a.x-b.x,dy=a.y-b.y,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<120){x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.strokeStyle=gl(.05*(1-d/120));x.lineWidth=.4;x.stroke();}
+    }
+  }
+  requestAnimationFrame(draw);
+}
+draw();
+
+// ============ TEMA E IDIOMA ============
+function toggleTheme(){
+  const h=document.documentElement;
+  const isDark=h.getAttribute('data-theme')==='dark';
+  h.setAttribute('data-theme',isDark?'light':'dark');
+  document.getElementById('nav-logo').src=isDark?'assets/velox_fondo_blanco.png':'assets/velox_fondo_negro.png';
+}
+let currentLang='es';
+function setLang(l){
+  currentLang=l;
+  document.querySelectorAll('.es').forEach(e=>e.classList.toggle('hide',l!=='es'));
+  document.querySelectorAll('.en').forEach(e=>e.classList.toggle('hide',l!=='en'));
+  document.getElementById('bes').classList.toggle('on',l==='es');
+  document.getElementById('ben').classList.toggle('on',l==='en');
+  // Re-renderizar acompañantes si ya hay
+  renderCompanions();
+}
+
+// ============ FECHA MÍNIMA = HOY ============
+const fechaInput=document.getElementById('fecha');
+const today=new Date();today.setHours(0,0,0,0);
+const yyyy=today.getFullYear(),mm=String(today.getMonth()+1).padStart(2,'0'),dd=String(today.getDate()).padStart(2,'0');
+fechaInput.min=`${yyyy}-${mm}-${dd}`;
+
+// ============ VALIDACIÓN HORARIO (máx 4h) ============
+const entradaInput=document.getElementById('entrada');
+const salidaInput=document.getElementById('salida');
+const timeWarning=document.getElementById('timeWarning');
+
+function checkTime(){
+  const e=entradaInput.value,s=salidaInput.value;
+  timeWarning.classList.remove('bad','ok');
+  if(!e||!s){
+    timeWarning.querySelector('.es').textContent='La duración máxima permitida por visita es de 4 horas.';
+    timeWarning.querySelector('.en').textContent='Maximum visit duration is 4 hours.';
+    return true;
+  }
+  const [eh,em]=e.split(':').map(Number);
+  const [sh,sm]=s.split(':').map(Number);
+  const diff=(sh*60+sm)-(eh*60+em);
+  if(diff<=0){
+    timeWarning.classList.add('bad');
+    timeWarning.querySelector('.es').textContent='La hora de salida debe ser posterior a la de entrada.';
+    timeWarning.querySelector('.en').textContent='Exit time must be after entry time.';
+    return false;
+  }
+  if(diff>240){
+    timeWarning.classList.add('bad');
+    const h=Math.floor(diff/60),m=diff%60;
+    timeWarning.querySelector('.es').textContent=`La duración (${h}h ${m}m) excede el máximo de 4 horas.`;
+    timeWarning.querySelector('.en').textContent=`Duration (${h}h ${m}m) exceeds the 4-hour maximum.`;
+    return false;
+  }
+  timeWarning.classList.add('ok');
+  const h=Math.floor(diff/60),m=diff%60;
+  timeWarning.querySelector('.es').textContent=`Duración: ${h}h ${m}m. Dentro del límite permitido.`;
+  timeWarning.querySelector('.en').textContent=`Duration: ${h}h ${m}m. Within allowed limit.`;
+  return true;
+}
+entradaInput.addEventListener('change',checkTime);
+salidaInput.addEventListener('change',checkTime);
+
+// ============ ACOMPAÑANTES DINÁMICOS ============
+const numPersonas=document.getElementById('numPersonas');
+const companions=document.getElementById('companions');
+
+function renderCompanions(){
+  const total=parseInt(numPersonas.value)||1;
+  const numComp=Math.max(0,total-1);
+
+  // Guardar valores existentes antes de re-renderizar
+  const existing=[];
+  companions.querySelectorAll('.companion').forEach(c=>{
+    existing.push({
+      nombre:c.querySelector('input[name^="acomp_nombre"]')?.value||'',
+      dpi:c.querySelector('input[name^="acomp_dpi"]')?.value||''
+    });
+  });
+
+  if(numComp===0){
+    companions.innerHTML=`<div class="comp-empty">
+      <span class="es${currentLang==='es'?'':' hide'}">No hay acompañantes adicionales.</span>
+      <span class="en${currentLang==='en'?'':' hide'}">No additional companions.</span>
+    </div>`;
+    return;
+  }
+
+  let html='';
+  for(let i=0;i<numComp;i++){
+    const n=existing[i]?.nombre||'';
+    const d=existing[i]?.dpi||'';
+    html+=`<div class="companion">
+      <div class="comp-head">
+        <span class="es${currentLang==='es'?'':' hide'}">Acompañante ${i+1}</span>
+        <span class="en${currentLang==='en'?'':' hide'}">Companion ${i+1}</span>
+      </div>
+      <div class="comp-grid">
+        <div class="field">
+          <label class="es${currentLang==='es'?'':' hide'}" for="acomp_nombre_${i}">Nombre completo <span class="star">*</span></label>
+          <label class="en${currentLang==='en'?'':' hide'}" for="acomp_nombre_${i}">Full name <span class="star">*</span></label>
+          <input type="text" id="acomp_nombre_${i}" name="acomp_nombre_${i+1}" value="${n.replace(/"/g,'&quot;')}" required>
+        </div>
+        <div class="field">
+          <label class="es${currentLang==='es'?'':' hide'}" for="acomp_dpi_${i}">DPI <span class="star">*</span></label>
+          <label class="en${currentLang==='en'?'':' hide'}" for="acomp_dpi_${i}">DPI <span class="star">*</span></label>
+          <input type="text" id="acomp_dpi_${i}" name="acomp_dpi_${i+1}" value="${d}" required inputmode="numeric" pattern="\\d{13}" maxlength="13">
+        </div>
+      </div>
+    </div>`;
+  }
+  companions.innerHTML=html;
+}
+numPersonas.addEventListener('input',renderCompanions);
+numPersonas.addEventListener('change',renderCompanions);
+
+// ============ VALIDACIÓN GENERAL Y ENVÍO ============
+// ⚠️ REEMPLAZA esta URL por la de tu Google Apps Script desplegado como Web App
+const APPS_SCRIPT_URL='https://script.google.com/macros/s/AKfycbyenlAnFassRTa7qDwhpArV_bVQwTEikM5Q4mGwSs7buG8jL5Lu4KckPZLyZU4vFr9Yew/exec';
+
+const form=document.getElementById('reqForm');
+const btnSubmit=document.getElementById('btnSubmit');
+const formMsg=document.getElementById('formMsg');
+
+function markInvalid(field,bad){
+  field.closest('.field').classList.toggle('invalid',bad);
+}
+
+function validateForm(){
+  let ok=true;
+  ['nombre','empresa','motivo'].forEach(id=>{
+    const f=document.getElementById(id);
+    const bad=!f.value.trim();
+    markInvalid(f,bad);if(bad)ok=false;
+  });
+  const correo=document.getElementById('correo');
+  const correoBad=!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo.value.trim());
+  markInvalid(correo,correoBad);if(correoBad)ok=false;
+  const dpi=document.getElementById('dpi');
+  const dpiBad=!/^\d{13}$/.test(dpi.value.trim());
+  markInvalid(dpi,dpiBad);if(dpiBad)ok=false;
+  const fecha=document.getElementById('fecha');
+  const fechaBad=!fecha.value;
+  markInvalid(fecha,fechaBad);if(fechaBad)ok=false;
+  const eBad=!entradaInput.value;
+  const sBad=!salidaInput.value;
+  markInvalid(entradaInput,eBad);markInvalid(salidaInput,sBad);
+  if(eBad||sBad)ok=false;
+  if(!checkTime())ok=false;
+  companions.querySelectorAll('.companion').forEach(c=>{
+    const n=c.querySelector('input[name^="acomp_nombre"]');
+    const d=c.querySelector('input[name^="acomp_dpi"]');
+    const nBad=!n.value.trim();
+    const dBad=!/^\d{13}$/.test(d.value.trim());
+    markInvalid(n,nBad);markInvalid(d,dBad);
+    if(nBad||dBad)ok=false;
+  });
+  return ok;
+}
+
+form.addEventListener('input',e=>{
+  if(e.target.closest('.field')?.classList.contains('invalid'))
+    e.target.closest('.field').classList.remove('invalid');
+});
+
+form.addEventListener('submit',async e=>{
+  e.preventDefault();
+  formMsg.classList.remove('show','ok','bad');
+
+  if(!validateForm()){
+    formMsg.classList.add('show','bad');
+    formMsg.innerHTML=`<span class="es${currentLang==='es'?'':' hide'}">Hay campos con errores. Por favor revisa el formulario.</span>
+    <span class="en${currentLang==='en'?'':' hide'}">There are fields with errors. Please review the form.</span>`;
+    return;
+  }
+
+  // Construir payload JSON para Apps Script
+  const payload={
+    nombre:document.getElementById('nombre').value.trim(),
+    correo:document.getElementById('correo').value.trim(),
+    empresa:document.getElementById('empresa').value.trim(),
+    dpi:document.getElementById('dpi').value.trim(),
+    motivo:document.getElementById('motivo').value.trim(),
+    fecha:document.getElementById('fecha').value,
+    entrada:entradaInput.value,
+    salida:salidaInput.value,
+    numPersonas:numPersonas.value
+  };
+  // Agregar acompañantes
+  companions.querySelectorAll('.companion').forEach((c,i)=>{
+    payload['acomp_nombre_'+(i+1)]=c.querySelector('input[name^="acomp_nombre"]').value.trim();
+    payload['acomp_dpi_'+(i+1)]=c.querySelector('input[name^="acomp_dpi"]').value.trim();
+  });
+
+  btnSubmit.disabled=true;
+  const originalText=btnSubmit.innerHTML;
+  btnSubmit.innerHTML=`<span class="es${currentLang==='es'?'':' hide'}">Enviando...</span>
+  <span class="en${currentLang==='en'?'':' hide'}">Sending...</span>`;
+
+  try{
+    const res=await fetch(APPS_SCRIPT_URL,{
+      method:'POST',
+      body:JSON.stringify(payload),
+      headers:{'Content-Type':'text/plain'}
+      // text/plain evita preflight CORS con Apps Script
+    });
+    const json=await res.json();
+    if(json.result==='ok'){
+      formMsg.classList.add('show','ok');
+      formMsg.innerHTML=`<span class="es${currentLang==='es'?'':' hide'}">✓ Solicitud enviada correctamente. Recibirás una respuesta al correo proporcionado en menos de 48 horas.</span>
+      <span class="en${currentLang==='en'?'':' hide'}">✓ Request submitted successfully. You will receive a reply at the email provided within 48 hours.</span>`;
+      form.reset();
+      numPersonas.value=1;
+      renderCompanions();
+      timeWarning.classList.remove('bad','ok');
+    }else{
+      throw new Error(json.message||'Server error');
+    }
+  }catch(err){
+    formMsg.classList.add('show','bad');
+    formMsg.innerHTML=`<span class="es${currentLang==='es'?'':' hide'}">No pudimos enviar tu solicitud. Verifica tu conexión e intenta de nuevo, o escríbenos a accesos@velox-datacenter.lat.</span>
+    <span class="en${currentLang==='en'?'':' hide'}">We couldn't submit your request. Check your connection and try again, or write us at accesos@velox-datacenter.lat.</span>`;
+  }finally{
+    btnSubmit.disabled=false;
+    btnSubmit.innerHTML=originalText;
+  }
+});
+
+// ============ FADE-IN ============
+const ob=new IntersectionObserver(e=>e.forEach(i=>{if(i.isIntersecting)i.target.classList.add('vis');}),{threshold:0.07});
+document.querySelectorAll('.fu').forEach(e=>ob.observe(e));
+</script>
+</body>
+</html>
