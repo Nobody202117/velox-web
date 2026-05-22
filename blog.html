@@ -13,6 +13,7 @@ body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-
 canvas#pts{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
 nav,section,header,footer,div{position:relative;z-index:1}
 
+/* ── NAV (idéntico al original) ── */
 nav{display:flex;justify-content:space-between;align-items:center;padding:1rem 3rem;border-bottom:0.5px solid var(--border);position:sticky;top:0;background:var(--nav-bg);backdrop-filter:blur(10px);z-index:100}
 .logo img{height:52px;object-fit:contain}
 .nav-links{display:flex;gap:2rem}
@@ -28,6 +29,7 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:1rem 3
 .nav-cta{border:0.5px solid var(--border);padding:0.45rem 1.1rem;font-size:0.68rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--text);text-decoration:none;transition:all 0.2s}
 .nav-cta:hover{background:var(--text);color:var(--bg)}
 
+/* ── HEADER ── */
 .blog-header{padding:3.5rem 3rem 2.5rem;border-bottom:0.5px solid var(--border)}
 .blog-header-top{display:flex;justify-content:space-between;align-items:flex-end}
 .blog-tag{font-size:0.6rem;font-weight:600;letter-spacing:0.25em;text-transform:uppercase;color:var(--text2);margin-bottom:0.8rem}
@@ -35,44 +37,126 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:1rem 3
 .blog-header h1 em{font-style:normal;font-weight:300;color:var(--text2)}
 .blog-count{font-size:0.75rem;color:var(--text2)}
 
-.filters{display:flex;gap:0;border-bottom:0.5px solid var(--border);padding:0 3rem;overflow-x:auto}
+/* ── FILTERS ── */
+.filters{display:flex;gap:0;border-bottom:0.5px solid var(--border);padding:0 3rem;overflow-x:auto;scrollbar-width:none}
+.filters::-webkit-scrollbar{display:none}
 .filter-btn{background:none;border:none;cursor:pointer;font-family:'Inter',sans-serif;font-size:0.68rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--text2);padding:1rem 1.2rem;border-bottom:2px solid transparent;transition:all 0.2s;white-space:nowrap}
 .filter-btn:hover{color:var(--text)}
 .filter-btn.active{color:var(--text);border-bottom-color:var(--text)}
 
-.featured-post{display:grid;grid-template-columns:1.4fr 1fr;border-bottom:0.5px solid var(--border)}
-.fp-content{padding:2.5rem 3rem;border-right:0.5px solid var(--border)}
-.fp-meta{display:flex;gap:1rem;align-items:center;margin-bottom:1.2rem}
-.fp-cat{font-size:0.6rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--text2);border:0.5px solid var(--border);padding:0.2rem 0.6rem}
-.fp-date{font-size:0.6rem;color:var(--text2)}
-.fp-read{font-size:0.6rem;color:var(--text2)}
-.fp-content h2{font-size:clamp(1.3rem,2.5vw,2rem);font-weight:700;color:var(--text);line-height:1.2;letter-spacing:-0.02em;margin-bottom:0.8rem}
-.fp-content p{font-size:0.82rem;color:var(--text2);line-height:1.85;margin-bottom:1.5rem}
-.fp-author{display:flex;align-items:center;gap:0.6rem}
-.fp-av{width:28px;height:28px;border-radius:50%;background:var(--bg2);border:0.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:600;color:var(--text2)}
-.fp-aname{font-size:0.72rem;font-weight:500;color:var(--text)}
-.fp-aside{padding:2.5rem;display:flex;flex-direction:column;gap:0}
-.fp-aside-item{padding:1.5rem 0;border-bottom:0.5px solid var(--border);cursor:pointer;transition:opacity 0.2s}
-.fp-aside-item:last-child{border-bottom:none}
-.fp-aside-item:hover{opacity:0.7}
-.fas-cat{font-size:0.58rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--text2);margin-bottom:0.5rem;display:block}
-.fas-title{font-size:0.88rem;font-weight:600;color:var(--text);line-height:1.35;letter-spacing:-0.01em}
-.fas-meta{font-size:0.6rem;color:var(--text2);margin-top:0.4rem}
+/* ── STAGE DIVIDER ── */
+.stage-divider{display:flex;align-items:center;gap:1rem;padding:2.5rem 3rem 0;font-size:0.58rem;font-weight:600;letter-spacing:0.25em;text-transform:uppercase;color:var(--text2)}
+.stage-divider::after{content:'';flex:1;height:0.5px;background:var(--border)}
+.s-badge{display:inline-block;font-size:0.55rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;padding:0.2rem 0.65rem;border-radius:2px}
+.s-done{background:var(--bg2);color:var(--text2)}
+.s-active{background:var(--text);color:var(--bg)}
 
-.posts-section{padding:2.5rem 3rem}
-.posts-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
-.post-card{padding:1.8rem;border:0.5px solid var(--border);cursor:pointer;transition:background 0.3s}
-.post-card:hover{background:var(--card-bg)}
-.pc-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1rem}
-.pc-cat{font-size:0.58rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--text2);border:0.5px solid var(--border);padding:0.18rem 0.55rem}
-.pc-num{font-size:1.8rem;font-weight:700;color:var(--bg2);letter-spacing:-0.03em;line-height:1}
-.post-card h3{font-size:0.95rem;font-weight:600;color:var(--text);line-height:1.4;letter-spacing:-0.01em;margin-bottom:0.6rem}
-.post-card p{font-size:0.75rem;color:var(--text2);line-height:1.75}
-.pc-footer{display:flex;justify-content:space-between;align-items:center;margin-top:1.3rem;padding-top:1rem;border-top:0.5px solid var(--border)}
-.pc-author{font-size:0.62rem;color:var(--text2)}
-.pc-arrow{font-size:0.65rem;font-weight:500;color:var(--text2);transition:color 0.2s}
-.post-card:hover .pc-arrow{color:var(--text)}
+/* ── ENTRY CARD — vertical, imagen arriba, texto abajo ── */
+.entry-card{border-bottom:0.5px solid var(--border);padding:2rem 3rem 2.5rem}
+.entry-card:last-of-type{border-bottom:none}
 
+/* imagen centrada, tamaño contenido */
+.entry-img-wrap{
+  width:100%;
+  max-height:400px;        /* altura máxima de la foto */
+  overflow:hidden;
+  background:var(--bg2);
+  border:0.5px solid var(--border);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  position:relative;
+  margin-bottom:1.5rem;
+}
+.entry-img-wrap img{
+  width:100%;
+  height:400px;
+  object-fit:cover;        /* recorta para llenar limpio */
+  display:block;
+  transition:transform 0.6s ease;
+}
+.entry-img-wrap:hover img{transform:scale(1.03)}
+
+/* dos imágenes lado a lado */
+.entry-img-duo{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0;
+  border:0.5px solid var(--border);
+  max-height:380px;
+  overflow:hidden;
+  margin-bottom:1.5rem;
+  background:var(--bg2);
+}
+.entry-img-duo img{
+  width:100%;
+  height:380px;
+  object-fit:cover;
+  display:block;
+  transition:transform 0.6s;
+}
+.entry-img-duo img:hover{transform:scale(1.03)}
+.entry-img-duo img+img{border-left:0.5px solid var(--border)}
+
+/* tres imágenes: grande arriba, dos abajo */
+.entry-img-trio{
+  border:0.5px solid var(--border);
+  margin-bottom:1.5rem;
+  background:var(--bg2);
+  overflow:hidden;
+}
+.trio-top{overflow:hidden;height:260px;position:relative}
+.trio-top img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.6s}
+.trio-top:hover img{transform:scale(1.03)}
+.trio-bottom{display:grid;grid-template-columns:1fr 1fr;border-top:0.5px solid var(--border)}
+.trio-bottom img{width:100%;height:200px;object-fit:cover;display:block;transition:transform 0.6s}
+.trio-bottom img:hover{transform:scale(1.03)}
+.trio-bottom img+img{border-left:0.5px solid var(--border)}
+
+/* caption sobre la imagen */
+.img-cap{position:absolute;bottom:0;left:0;right:0;padding:0.6rem 1rem;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.75);background:linear-gradient(transparent,rgba(0,0,0,0.55));pointer-events:none}
+
+/* texto del entry */
+.entry-meta-row{display:flex;align-items:center;gap:0.8rem;margin-bottom:0.8rem;flex-wrap:wrap}
+.e-cat{font-size:0.58rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--text2);border:0.5px solid var(--border);padding:0.18rem 0.55rem}
+.e-badge{font-size:0.55rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;padding:0.18rem 0.55rem;border-radius:2px}
+.e-done{background:var(--bg2);color:var(--text2)}
+.e-active{background:var(--text);color:var(--bg)}
+.e-date{font-size:0.6rem;color:var(--text2)}
+
+.entry-card h2{font-size:clamp(1rem,2vw,1.4rem);font-weight:700;color:var(--text);letter-spacing:-0.02em;line-height:1.25;margin-bottom:0.8rem}
+.entry-card p{font-size:0.8rem;color:var(--text2);line-height:1.9;margin-bottom:0.7rem}
+.entry-card p:last-of-type{margin-bottom:0}
+.entry-card p strong{color:var(--text);font-weight:500}
+.entry-foot{display:flex;flex-wrap:wrap;gap:1rem;margin-top:1.2rem;padding-top:1rem;border-top:0.5px solid var(--border);font-size:0.6rem;color:var(--text2)}
+
+/* ── VIDEOS — ratio vertical 9:16 ── */
+.video-section{padding:2rem 3rem 2.5rem;border-bottom:0.5px solid var(--border)}
+.video-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:1.5rem}
+.video-card{border:0.5px solid var(--border);background:var(--card-bg);overflow:hidden}
+
+/* contenedor con aspect-ratio fijo 9:16 para video vertical */
+.video-box{
+  position:relative;
+  width:100%;
+  padding-top:177.78%;   /* 16/9 × 100 = proporción vertical */
+  background:#000;
+  overflow:hidden;
+}
+.video-box video{
+  position:absolute;
+  top:0;left:0;
+  width:100%;height:100%;
+  object-fit:contain;    /* no recortar — mostrar completo */
+  display:block;
+}
+
+.vc-info{padding:1.2rem 1.4rem}
+.vc-cat{font-size:0.55rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--text2);display:block;margin-bottom:0.4rem}
+.vc-title{font-size:0.9rem;font-weight:600;color:var(--text);letter-spacing:-0.01em;line-height:1.35;margin-bottom:0.5rem}
+.vc-desc{font-size:0.75rem;color:var(--text2);line-height:1.8}
+
+/* ── PHASES (igual al original) ── */
 .phases-bar{border-top:0.5px solid var(--border);border-bottom:0.5px solid var(--border)}
 .phases-inner{padding:2.5rem 3rem}
 .ph-label{font-size:0.6rem;font-weight:600;letter-spacing:0.25em;text-transform:uppercase;color:var(--text2);margin-bottom:1.5rem}
@@ -85,6 +169,7 @@ nav{display:flex;justify-content:space-between;align-items:center;padding:1rem 3
 .ph-status.active{background:var(--text);color:var(--bg)}
 .ph-status.pending{border:0.5px solid var(--border);color:var(--text2)}
 
+/* ── FOOTER (igual al original) ── */
 footer{padding:1.5rem 3rem;border-top:0.5px solid var(--border);display:flex;justify-content:space-between;align-items:center}
 .fl{font-size:0.78rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text2)}
 .flinks{display:flex;gap:1.8rem}
@@ -95,11 +180,27 @@ footer{padding:1.5rem 3rem;border-top:0.5px solid var(--border);display:flex;jus
 .fu{opacity:0;transform:translateY(18px);transition:opacity 0.6s ease,transform 0.6s ease}
 .fu.vis{opacity:1;transform:translateY(0)}
 .hide{display:none!important}
+.seg-block{position:relative;z-index:1}
+
+@media(max-width:860px){
+  nav{padding:1rem 1.2rem}
+  .nav-links{display:none}
+  .blog-header,.filters,.stage-divider,.entry-card,.video-section,.phases-inner{padding-left:1.2rem;padding-right:1.2rem}
+  .entry-img-duo,.entry-img-trio .trio-bottom{grid-template-columns:1fr}
+  .entry-img-duo img+img{border-left:none;border-top:0.5px solid var(--border)}
+  .trio-bottom img+img{border-left:none;border-top:0.5px solid var(--border)}
+  .trio-bottom img{height:160px}
+  .video-grid{grid-template-columns:1fr}
+  .phases-track{flex-wrap:wrap}
+  .phase{flex:1 1 40%}
+  footer{flex-direction:column;gap:1rem;text-align:center;padding:1.5rem 1.2rem}
+}
 </style>
 </head>
 <body>
 <canvas id="pts"></canvas>
 
+<!-- ═══ NAV ═══ -->
 <nav>
   <div class="logo">
     <img src="assets/velox_fondo_blanco.png" id="nav-logo" alt="Velox Datacenter">
@@ -124,137 +225,370 @@ footer{padding:1.5rem 3rem;border-top:0.5px solid var(--border);display:flex;jus
   </div>
 </nav>
 
+<!-- ═══ HEADER ═══ -->
 <header class="blog-header fu">
   <div class="blog-header-top">
     <div>
-      <p class="blog-tag es">Blog técnico — Proyecto Velox</p>
-      <p class="blog-tag en hide">Technical blog — Velox Project</p>
+      <p class="blog-tag es">Seguimiento del proyecto — Velox Datacenter</p>
+      <p class="blog-tag en hide">Project log — Velox Datacenter</p>
       <h1 class="es">Construimos un datacenter.<br><em>Desde cero.</em></h1>
       <h1 class="en hide">We're building a datacenter.<br><em>From scratch.</em></h1>
     </div>
-    <span class="blog-count es">12 artículos publicados</span>
-    <span class="blog-count en hide">12 articles published</span>
+    <span class="blog-count es">6 etapas documentadas</span>
+    <span class="blog-count en hide">6 documented stages</span>
   </div>
 </header>
 
+<!-- ═══ FILTERS ═══ -->
 <div class="filters fu">
-  <button class="filter-btn active es" onclick="filterCat('all',this)">Todos</button>
-  <button class="filter-btn active en hide" onclick="filterCat('all',this)">All</button>
-  <button class="filter-btn es" onclick="filterCat('proceso',this)">Proceso</button>
-  <button class="filter-btn en hide" onclick="filterCat('proceso',this)">Process</button>
-  <button class="filter-btn es" onclick="filterCat('tutorial',this)">Tutorial</button>
-  <button class="filter-btn en hide" onclick="filterCat('tutorial',this)">Tutorial</button>
-  <button class="filter-btn es" onclick="filterCat('red',this)">Red</button>
-  <button class="filter-btn en hide" onclick="filterCat('red',this)">Network</button>
-  <button class="filter-btn es" onclick="filterCat('hardware',this)">Hardware</button>
-  <button class="filter-btn en hide" onclick="filterCat('hardware',this)">Hardware</button>
+  <button class="filter-btn active" onclick="filterSec('all',this)">
+    <span class="es">Todas</span><span class="en hide">All</span>
+  </button>
+  <button class="filter-btn" onclick="filterSec('diseno',this)">
+    <span class="es">Diseño</span><span class="en hide">Design</span>
+  </button>
+  <button class="filter-btn" onclick="filterSec('componentes',this)">
+    <span class="es">Componentes</span><span class="en hide">Components</span>
+  </button>
+  <button class="filter-btn" onclick="filterSec('construccion',this)">
+    <span class="es">Construcción</span><span class="en hide">Build</span>
+  </button>
+  <button class="filter-btn" onclick="filterSec('electronica',this)">
+    <span class="es">Electrónica</span><span class="en hide">Electronics</span>
+  </button>
+  <button class="filter-btn" onclick="filterSec('monitoreo',this)">
+    <span class="es">Monitoreo</span><span class="en hide">Monitoring</span>
+  </button>
+  <button class="filter-btn" onclick="filterSec('acceso',this)">
+    <span class="es">Acceso</span><span class="en hide">Access</span>
+  </button>
 </div>
 
-<div class="featured-post fu">
-  <div class="fp-content">
-    <div class="fp-meta">
-      <span class="fp-cat es">Proceso</span>
-      <span class="fp-cat en hide">Process</span>
-      <span class="fp-date">14 Mayo, 2026</span>
-      <span class="fp-read es">8 min lectura</span>
-      <span class="fp-read en hide">8 min read</span>
-    </div>
-    <h2 class="es">Cómo diseñamos el layout físico de nuestra maqueta de datacenter</h2>
-    <h2 class="en hide">How we designed the physical layout of our datacenter scale model</h2>
-    <p class="es">Antes de poner un solo cable, necesitamos planos. En este artículo explicamos cómo definimos el espacio, la distribución de racks y los flujos de aire frío y caliente en una maqueta a escala.</p>
-    <p class="en hide">Before placing a single cable, we needed blueprints. We explain how we defined the space, rack distribution and hot/cold airflow paths in a scale model.</p>
-    <div class="fp-author">
-      <div class="fp-av">SR</div>
-      <span class="fp-aname">Sharelyn R.</span>
-    </div>
+<!-- ═══════════════ DISEÑO ═══════════════ -->
+<div class="seg-block fu" data-s="diseno">
+  <div class="stage-divider">
+    <span class="es">01 · Diseño</span><span class="en hide">01 · Design</span>
+    <span class="s-badge s-done es">Completada</span>
+    <span class="s-badge s-done en hide">Done</span>
   </div>
-  <div class="fp-aside">
-    <div class="fp-aside-item">
-      <span class="fas-cat">Tutorial</span>
-      <div class="fas-title es">Cableado estructurado en espacio reducido: lecciones aprendidas</div>
-      <div class="fas-title en hide">Structured cabling in reduced space: lessons learned</div>
-      <div class="fas-meta">8 Mayo · 6 min</div>
+
+  <!-- Render 3D -->
+  <div class="entry-card">
+    <div class="entry-img-wrap">
+      <img src="assets/img_render3d.jpeg" alt="Render 3D Velox">
+      <span class="img-cap">Render 3D — Vista isométrica del edificio completo</span>
     </div>
-    <div class="fp-aside-item">
-      <span class="fas-cat es">Hardware</span>
-      <span class="fas-cat en hide">Hardware</span>
-      <div class="fas-title es">Seleccionando el hardware: qué usamos y por qué</div>
-      <div class="fas-title en hide">Selecting hardware: what we use and why</div>
-      <div class="fas-meta">1 Mayo · 5 min</div>
+    <div class="entry-meta-row">
+      <span class="e-cat es">Diseño</span><span class="e-cat en hide">Design</span>
+      <span class="e-badge e-done es">Completada</span><span class="e-badge e-done en hide">Done</span>
+      <span class="e-date">Mayo 2026</span>
     </div>
-    <div class="fp-aside-item">
-      <span class="fas-cat es">Red</span>
-      <span class="fas-cat en hide">Network</span>
-      <div class="fas-title es">VLANs en switches de bajo costo: guía práctica</div>
-      <div class="fas-title en hide">VLANs on budget switches: practical guide</div>
-      <div class="fas-meta">25 Abr · 7 min</div>
+    <h2 class="es">Visualizando el datacenter antes de construirlo</h2>
+    <h2 class="en hide">Visualizing the datacenter before building it</h2>
+    <p class="es">El proceso comenzó con un <strong>render 3D fotorrealista</strong> del edificio completo. Cada zona quedó definida desde el inicio: sala de servidores con racks alineados, cuarto de vigilancia con pantallas de monitoreo, recepción, cintoteca y parqueo.</p>
+    <p class="en hide">The process started with a <strong>photorealistic 3D render</strong> of the full building. Each zone was defined from the start: server room with aligned racks, surveillance room, reception, tape library and parking.</p>
+    <p class="es">La zona marcada como <strong>"Solo personal autorizado"</strong> fue el punto de partida conceptual para el sistema de control de acceso RFID que se implementó después.</p>
+    <p class="en hide">The zone marked <strong>"Authorized personnel only"</strong> was the conceptual starting point for the RFID access control system implemented later.</p>
+  </div>
+
+  <!-- Plano de planta -->
+  <div class="entry-card">
+    <div class="entry-img-wrap">
+      <img src="assets/img_plano.jpeg" alt="Plano de planta profesional">
+      <span class="img-cap">Plano de planta — 7 zonas numeradas y etiquetadas</span>
+    </div>
+    <div class="entry-meta-row">
+      <span class="e-cat es">Diseño</span><span class="e-cat en hide">Design</span>
+      <span class="e-badge e-done es">Completada</span><span class="e-badge e-done en hide">Done</span>
+      <span class="e-date">Mayo 2026</span>
+    </div>
+    <h2 class="es">Plano de planta: distribución técnica del espacio</h2>
+    <h2 class="en hide">Floor plan: technical space distribution</h2>
+    <p class="es">Complementando el render, se elaboró un <strong>plano de planta profesional</strong> con 7 zonas numeradas: ① Datacenter, ② Recepción, ③ Cuarto de Vigilancia, ④ Baños, ⑤ Parqueo, ⑥ Sala de espera y ⑦ Cintoteca.</p>
+    <p class="en hide">Alongside the render, a <strong>professional floor plan</strong> with 7 numbered zones: ① Datacenter, ② Reception, ③ Surveillance Room, ④ Restrooms, ⑤ Parking, ⑥ Waiting area and ⑦ Tape library.</p>
+    <p class="es">Este plano fue la referencia técnica principal durante toda la fase de construcción, definiendo proporciones, flujos de circulación y la ubicación de cada módulo electrónico dentro de la maqueta.</p>
+    <p class="en hide">This floor plan was the main technical reference throughout the build phase, defining proportions, circulation flows and the placement of each electronic module inside the scale model.</p>
+    <div class="entry-foot">
+      <span class="es">7 zonas · Estándar Tier III objetivo</span>
+      <span class="en hide">7 zones · Tier III target standard</span>
     </div>
   </div>
 </div>
 
-<section class="posts-section fu">
-  <div class="posts-grid">
-    <div class="post-card" data-cat="tutorial">
-      <div class="pc-top"><span class="pc-cat">Tutorial</span><span class="pc-num">04</span></div>
-      <h3 class="es">Simulando redundancia de energía con baterías 18650</h3>
-      <h3 class="en hide">Simulating power redundancy with 18650 batteries</h3>
-      <p class="es">Cómo construimos un sistema UPS casero usando celdas de litio y un módulo de carga TP4056.</p>
-      <p class="en hide">How we built a DIY UPS system using lithium cells and a TP4056 charging module.</p>
-      <div class="pc-footer"><span class="pc-author">Carlos M. · 20 Abr</span><span class="pc-arrow">→</span></div>
+<!-- ═══════════════ COMPONENTES ═══════════════ -->
+<div class="seg-block fu" data-s="componentes">
+  <div class="stage-divider">
+    <span class="es">02 · Componentes</span><span class="en hide">02 · Components</span>
+    <span class="s-badge s-done es">Completada</span>
+    <span class="s-badge s-done en hide">Done</span>
+  </div>
+
+  <div class="entry-card">
+    <div class="entry-img-duo">
+      <img src="assets/img_componentes1.jpeg" alt="Componentes generales">
+      <img src="assets/img_componentes2.jpeg" alt="Sensores y ventiladores">
     </div>
-    <div class="post-card" data-cat="proceso">
-      <div class="pc-top"><span class="pc-cat es">Proceso</span><span class="pc-cat en hide">Process</span><span class="pc-num">05</span></div>
-      <h3 class="es">Monitoreo de temperatura con sensores DHT22 y Grafana</h3>
-      <h3 class="en hide">Temperature monitoring with DHT22 sensors and Grafana</h3>
-      <p class="es">Instalamos sensores en cada rack y visualizamos los datos en tiempo real con Grafana local.</p>
-      <p class="en hide">We installed sensors in each rack and visualized data in real time with local Grafana.</p>
-      <div class="pc-footer"><span class="pc-author">Sharelyn R. · 15 Abr</span><span class="pc-arrow">→</span></div>
+    <div class="entry-meta-row">
+      <span class="e-cat es">Hardware</span><span class="e-cat en hide">Hardware</span>
+      <span class="e-badge e-done es">Completada</span><span class="e-badge e-done en hide">Done</span>
+      <span class="e-date">Mayo 2026</span>
     </div>
-    <div class="post-card" data-cat="proceso">
-      <div class="pc-top"><span class="pc-cat es">Proceso</span><span class="pc-cat en hide">Process</span><span class="pc-num">06</span></div>
-      <h3 class="es">¿Por qué elegimos Proxmox para la virtualización?</h3>
-      <h3 class="en hide">Why we chose Proxmox for virtualization?</h3>
-      <p class="es">Evaluamos ESXi, Proxmox y TrueNAS Scale. Aquí nuestro razonamiento y los resultados.</p>
-      <p class="en hide">We evaluated ESXi, Proxmox and TrueNAS Scale. Here's our reasoning and results.</p>
-      <div class="pc-footer"><span class="pc-author">Carlos M. · 10 Abr</span><span class="pc-arrow">→</span></div>
-    </div>
-    <div class="post-card" data-cat="hardware">
-      <div class="pc-top"><span class="pc-cat es">Hardware</span><span class="pc-cat en hide">Hardware</span><span class="pc-num">07</span></div>
-      <h3 class="es">Rack casero: construimos nuestro propio bastidor a escala</h3>
-      <h3 class="en hide">DIY rack: we built our own scale rack from scratch</h3>
-      <p class="es">MDF, impresión 3D y paciencia. Así construimos los racks físicos desde cero.</p>
-      <p class="en hide">MDF, 3D printing and patience. That's how we built our physical racks from scratch.</p>
-      <div class="pc-footer"><span class="pc-author">Luis F. · 5 Abr</span><span class="pc-arrow">→</span></div>
-    </div>
-    <div class="post-card" data-cat="red">
-      <div class="pc-top"><span class="pc-cat es">Red</span><span class="pc-cat en hide">Network</span><span class="pc-num">08</span></div>
-      <h3 class="es">Configurando pfSense como firewall de la maqueta</h3>
-      <h3 class="en hide">Setting up pfSense as the scale model firewall</h3>
-      <p class="es">Instalación, reglas básicas y segmentación de red con pfSense en hardware de bajo costo.</p>
-      <p class="en hide">Installation, basic rules and network segmentation with pfSense on low-cost hardware.</p>
-      <div class="pc-footer"><span class="pc-author">Luis F. · 1 Abr</span><span class="pc-arrow">→</span></div>
-    </div>
-    <div class="post-card" data-cat="proceso">
-      <div class="pc-top"><span class="pc-cat es">Proceso</span><span class="pc-cat en hide">Process</span><span class="pc-num">09</span></div>
-      <h3 class="es">Errores que cometimos en la fase de diseño</h3>
-      <h3 class="en hide">Mistakes we made in the design phase</h3>
-      <p class="es">Una retrospectiva honesta: qué planeamos mal y qué cambiaríamos si empezáramos de nuevo.</p>
-      <p class="en hide">An honest retrospective: what we planned wrong and what we'd change if starting over.</p>
-      <div class="pc-footer"><span class="pc-author">Sharelyn R. · 28 Mar</span><span class="pc-arrow">→</span></div>
+    <h2 class="es">Adquisición de hardware: qué compramos y para qué</h2>
+    <h2 class="en hide">Hardware acquisition: what we bought and why</h2>
+    <p class="es">Con el diseño definido, se hizo el inventario completo de componentes. La primera imagen muestra la llegada: <strong>módulo RFID RC522</strong>, sensor ultrasónico HC-SR04, servomotor, baterías 18650 Garberiel 3.7V, LEDs multicolor, cables jumper y cable USB tipo B para el Arduino.</p>
+    <p class="en hide">With the design defined, a full component inventory was made. The first image shows the arrival: <strong>RFID RC522 module</strong>, HC-SR04 ultrasonic sensor, servo motor, Garberiel 18650 3.7V batteries, multicolor LEDs, jumper wires and USB type B cable for the Arduino.</p>
+    <p class="es">La segunda imagen corresponde al segundo lote: <strong>ventiladores de rack en miniatura</strong> para simular el sistema de enfriamiento, <strong>sensores DHT11</strong> de temperatura y humedad etiquetados a mano, y resistencias de 47Ω y 820Ω para los circuitos de protección.</p>
+    <p class="en hide">The second image shows the second batch: <strong>miniature rack fans</strong> to simulate the cooling system, hand-labeled <strong>DHT11</strong> temperature and humidity sensors, and 47Ω and 820Ω resistors for protection circuits.</p>
+    <div class="entry-foot">
+      <span class="es">~15 componentes distintos</span>
+      <span class="en hide">~15 different components</span>
     </div>
   </div>
-</section>
+</div>
 
+<!-- ═══════════════ CONSTRUCCIÓN ═══════════════ -->
+<div class="seg-block fu" data-s="construccion">
+  <div class="stage-divider">
+    <span class="es">03 · Construcción física</span><span class="en hide">03 · Physical build</span>
+    <span class="s-badge s-active es">En progreso</span>
+    <span class="s-badge s-active en hide">In progress</span>
+  </div>
+
+  <!-- Pieza inicial -->
+  <div class="entry-card">
+    <div class="entry-img-wrap">
+      <img src="assets/img_estructura1.jpeg" alt="Primera pieza de la maqueta">
+      <span class="img-cap">Primera pieza — cartón bicolor cortado y doblado a mano</span>
+    </div>
+    <div class="entry-meta-row">
+      <span class="e-cat es">Construcción</span><span class="e-cat en hide">Build</span>
+      <span class="e-badge e-active es">En progreso</span><span class="e-badge e-active en hide">In progress</span>
+      <span class="e-date">Mayo 2026</span>
+    </div>
+    <h2 class="es">Primer corte: así empezó la estructura</h2>
+    <h2 class="en hide">First cut: how the structure began</h2>
+    <p class="es">La construcción física arrancó con <strong>cartón negro y blanco</strong> medido, marcado y doblado a mano según el plano. El criterio de color fue deliberado: negro por dentro para simular el ambiente controlado de un datacenter real, blanco por fuera para el acabado exterior.</p>
+    <p class="en hide">Physical construction started with <strong>black and white cardboard</strong> measured, marked and hand-folded according to the floor plan. The color scheme was deliberate: black inside to simulate the controlled environment of a real datacenter, white outside for the exterior finish.</p>
+  </div>
+
+  <!-- Ensamblaje + exterior (trio) -->
+  <div class="entry-card">
+    <div class="entry-img-trio">
+      <div class="trio-top">
+        <img src="assets/img_estructura2.jpeg" alt="Ensamblaje con LED cyan">
+        <span class="img-cap">Ensamblaje con LED cyan encendido — sala de servidores</span>
+      </div>
+      <div class="trio-bottom">
+        <img src="assets/img_estructura3.jpeg" alt="Estructura exterior terminada">
+        <img src="assets/img_estructura1.jpeg" alt="Detalle de pieza">
+      </div>
+    </div>
+    <div class="entry-meta-row">
+      <span class="e-cat es">Construcción</span><span class="e-cat en hide">Build</span>
+      <span class="e-badge e-active es">En progreso</span><span class="e-badge e-active en hide">In progress</span>
+      <span class="e-date">Mayo 2026</span>
+    </div>
+    <h2 class="es">Ensamblaje: de piezas sueltas a edificio completo</h2>
+    <h2 class="en hide">Assembly: from loose pieces to a complete building</h2>
+    <p class="es">Las divisiones internas se pegaron con <strong>pistola de silicón caliente</strong>, separando las zonas del plano. En esta fase también se instaló la <strong>tira LED cyan</strong> que ilumina la sala de servidores — el primer momento en que la maqueta cobró vida con luz.</p>
+    <p class="en hide">Internal divisions were glued with a <strong>hot glue gun</strong>, separating the floor plan zones. The <strong>cyan LED strip</strong> was also installed in this phase to illuminate the server room — the first moment the model came alive with light.</p>
+    <p class="es">La estructura exterior quedó montada sobre una <strong>base de madera con patas</strong> con paredes negras y blancas/plateadas. El agujero en la base permite el paso del cableado de la electrónica hacia el interior.</p>
+    <p class="en hide">The exterior structure was mounted on a <strong>wooden base with legs</strong> combining black and white/silver walls. The hole in the base allows electronics wiring to pass through into the interior.</p>
+    <div class="entry-foot">
+      <span class="es">Materiales: cartón, silicón caliente, madera, foil, tira LED</span>
+      <span class="en hide">Materials: cardboard, hot glue, wood, foil, LED strip</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ ELECTRÓNICA ═══════════════ -->
+<div class="seg-block fu" data-s="electronica">
+  <div class="stage-divider">
+    <span class="es">04 · Electrónica</span><span class="en hide">04 · Electronics</span>
+    <span class="s-badge s-active es">En progreso</span>
+    <span class="s-badge s-active en hide">In progress</span>
+  </div>
+
+  <!-- Diagrama Arduino -->
+  <div class="entry-card">
+    <div class="entry-img-wrap">
+      <img src="assets/img_arduino.jpeg" alt="Diagrama Arduino Mega en Proteus">
+      <span class="img-cap">Diagrama en Proteus — Arduino Mega 2560 + DHT22 + Touch Sensor</span>
+    </div>
+    <div class="entry-meta-row">
+      <span class="e-cat es">Electrónica</span><span class="e-cat en hide">Electronics</span>
+      <span class="e-badge e-active es">En progreso</span><span class="e-badge e-active en hide">In progress</span>
+      <span class="e-date">Mayo 2026</span>
+    </div>
+    <h2 class="es">El cerebro del sistema: Arduino Mega 2560</h2>
+    <h2 class="en hide">The system brain: Arduino Mega 2560</h2>
+    <p class="es">Antes de conectar ningún cable físico, se diseñó el circuito completo en <strong>Proteus</strong>. El esquema muestra el Arduino Mega 2560 (ATMEGA2560) como controlador central, conectado al sensor <strong>DHT22</strong> de temperatura y humedad, un <strong>Touch Sensor</strong> y un buzzer de alarma.</p>
+    <p class="en hide">Before connecting any physical cable, the full circuit was designed in <strong>Proteus</strong>. The schematic shows the Arduino Mega 2560 (ATMEGA2560) as the central controller, connected to the <strong>DHT22</strong> temperature and humidity sensor, a <strong>Touch Sensor</strong> and an alarm buzzer.</p>
+    <p class="es">Simular primero permitió detectar errores de conexión y validar la lógica antes de arriesgar los componentes reales. El DHT22 en simulación ya reportaba <strong>80% de humedad y 27°C</strong>, valores que luego confirmamos en el dashboard de Grafana.</p>
+    <p class="en hide">Simulating first allowed detecting wiring errors and validating logic before risking real components. The DHT22 in simulation already reported <strong>80% humidity and 27°C</strong>, values later confirmed in the Grafana dashboard.</p>
+  </div>
+
+  <!-- Baterías + regulador -->
+  <div class="entry-card">
+    <div class="entry-img-duo">
+      <img src="assets/img_bateria2.jpeg" alt="Portabaterías 18650">
+      <img src="assets/img_circuito1.jpeg" alt="Regulador de voltaje en protoboard">
+    </div>
+    <div class="entry-meta-row">
+      <span class="e-cat es">Electrónica</span><span class="e-cat en hide">Electronics</span>
+      <span class="e-badge e-active es">En progreso</span><span class="e-badge e-active en hide">In progress</span>
+      <span class="e-date">Mayo 2026</span>
+    </div>
+    <h2 class="es">Alimentación: baterías 18650 como fuente autónoma</h2>
+    <h2 class="en hide">Power supply: 18650 batteries as autonomous source</h2>
+    <p class="es">Como fuente de energía se usaron <strong>baterías recargables 18650 Garberiel de 3.7V</strong> en un portabaterías de 3 slots, entregando ~11.1V que se regulan a 5V mediante un módulo regulador ajustable con capacitores de filtro de 220µF y 100µF.</p>
+    <p class="en hide">As the power source, <strong>Garberiel 18650 3.7V rechargeable batteries</strong> in a 3-slot holder were used, delivering ~11.1V regulated to 5V through an adjustable regulator module with 220µF and 100µF filter capacitors.</p>
+    <p class="es">Este esquema permite que la maqueta funcione <strong>completamente autónoma</strong>, sin depender de corriente — igual que un sistema real con UPS que mantiene operación ante cortes de energía.</p>
+    <p class="en hide">This setup allows the model to operate <strong>fully autonomously</strong>, without relying on a wall outlet — just like a real system with UPS that maintains operation during power outages.</p>
+  </div>
+
+  <!-- Circuito completo -->
+  <div class="entry-card">
+    <div class="entry-img-wrap">
+      <img src="assets/img_circuito2.jpeg" alt="Circuito completo ensamblado">
+      <span class="img-cap">Sistema completo en protoboard — todas las conexiones activas</span>
+    </div>
+    <div class="entry-meta-row">
+      <span class="e-cat es">Electrónica</span><span class="e-cat en hide">Electronics</span>
+      <span class="e-badge e-active es">En progreso</span><span class="e-badge e-active en hide">In progress</span>
+      <span class="e-date">Mayo 2026</span>
+    </div>
+    <h2 class="es">Del diagrama al cable real: ensamblaje completo</h2>
+    <h2 class="en hide">From diagram to real wire: full assembly</h2>
+    <p class="es">El sistema completo en fase de ensamblaje: Arduino, protoboard, baterías y todos los módulos corriendo en paralelo. El LED rojo encendido confirma que la alimentación estaba activa y el circuito respondiendo correctamente.</p>
+    <p class="en hide">The complete system during assembly: Arduino, breadboard, batteries and all modules running in parallel. The lit red LED confirms power was active and the circuit responding correctly.</p>
+    <p class="es">La densidad del cableado refleja la cantidad de módulos integrados simultáneamente: RFID, sensores de temperatura, ventiladores, LEDs indicadores y el servomotor — todo controlado desde el mismo Arduino Mega.</p>
+    <p class="en hide">The wiring density reflects the number of modules integrated simultaneously: RFID, temperature sensors, fans, indicator LEDs and the servo motor — all controlled from the same Arduino Mega.</p>
+    <div class="entry-foot">
+      <span>Arduino Mega · DHT11 · RFID RC522 · Servomotor · LEDs</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ MONITOREO ═══════════════ -->
+<div class="seg-block fu" data-s="monitoreo">
+  <div class="stage-divider">
+    <span class="es">05 · Monitoreo</span><span class="en hide">05 · Monitoring</span>
+    <span class="s-badge s-active es">En progreso</span>
+    <span class="s-badge s-active en hide">In progress</span>
+  </div>
+
+  <div class="entry-card">
+    <div class="entry-img-wrap">
+      <img src="assets/img_grafana.jpeg" alt="Dashboard Grafana Velox">
+      <span class="img-cap">veloxdatacenter.grafana.net — datos en tiempo real</span>
+    </div>
+    <div class="entry-meta-row">
+      <span class="e-cat es">Monitoreo</span><span class="e-cat en hide">Monitoring</span>
+      <span class="e-badge e-active es">En progreso</span><span class="e-badge e-active en hide">In progress</span>
+      <span class="e-date">Mayo 2026</span>
+    </div>
+    <h2 class="es">Grafana Cloud: el datacenter visible en tiempo real</h2>
+    <h2 class="en hide">Grafana Cloud: the datacenter visible in real time</h2>
+    <p class="es">Los datos de los sensores se publican en un <strong>dashboard de Grafana Cloud</strong> en <code style="font-size:0.75rem;background:var(--bg2);padding:0.1rem 0.4rem;border-radius:2px">veloxdatacenter.grafana.net</code>. El panel muestra 4 gauges en tiempo real: <strong>Alarma</strong> (0 = sin incidente), <strong>Humedad</strong> (60%), <strong>Temperatura</strong> (24.5°C) y el timestamp del último dato recibido.</p>
+    <p class="en hide">Sensor data is published to a <strong>Grafana Cloud dashboard</strong> at <code style="font-size:0.75rem;background:var(--bg2);padding:0.1rem 0.4rem;border-radius:2px">veloxdatacenter.grafana.net</code>. The panel shows 4 real-time gauges: <strong>Alarm</strong> (0 = no incident), <strong>Humidity</strong> (60%), <strong>Temperature</strong> (24.5°C) and the last data timestamp.</p>
+    <p class="es">La fuente de datos es <strong>Amazon DynamoDB</strong>, donde el Arduino publica mediciones a través de una función Lambda. La query <code style="font-size:0.72rem;background:var(--bg2);padding:0.1rem 0.4rem;border-radius:2px">SELECT * FROM "Mediciones_DataCenter" LIMIT 50</code> trae los últimos registros para construir las gráficas de tendencia.</p>
+    <p class="en hide">The data source is <strong>Amazon DynamoDB</strong>, where the Arduino publishes measurements through a Lambda function. The query <code style="font-size:0.72rem;background:var(--bg2);padding:0.1rem 0.4rem;border-radius:2px">SELECT * FROM "Mediciones_DataCenter" LIMIT 50</code> fetches the latest records to build trend charts.</p>
+    <div class="entry-foot">
+      <span>Stack: Arduino → DynamoDB → Grafana Cloud</span>
+      <span class="es">Intervalo: 20 minutos</span>
+      <span class="en hide">Interval: 20 minutes</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ ACCESO ═══════════════ -->
+<div class="seg-block fu" data-s="acceso">
+  <div class="stage-divider">
+    <span class="es">06 · Control de acceso</span><span class="en hide">06 · Access control</span>
+    <span class="s-badge s-active es">En progreso</span>
+    <span class="s-badge s-active en hide">In progress</span>
+  </div>
+
+  <div class="video-section">
+    <div class="entry-meta-row">
+      <span class="e-cat es">Seguridad</span><span class="e-cat en hide">Security</span>
+      <span class="e-badge e-active es">En progreso</span><span class="e-badge e-active en hide">In progress</span>
+      <span class="e-date">Mayo 2026</span>
+    </div>
+    <h2 class="es" style="font-size:clamp(1rem,2vw,1.4rem);font-weight:700;letter-spacing:-0.02em;margin-bottom:0.8rem">Sistema RFID: demos en funcionamiento</h2>
+    <h2 class="en hide" style="font-size:clamp(1rem,2vw,1.4rem);font-weight:700;letter-spacing:-0.02em;margin-bottom:0.8rem">RFID system: live demos</h2>
+    <p style="font-size:0.8rem;color:var(--text2);line-height:1.9;max-width:700px" class="es">El módulo RC522 valida cada tarjeta en milisegundos. Si el UID está registrado, el servomotor abre la puerta simulada y el LED verde se activa. Si la tarjeta es desconocida, el LED rojo y el buzzer alertan el intento fallido.</p>
+    <p style="font-size:0.8rem;color:var(--text2);line-height:1.9;max-width:700px" class="en hide">The RC522 module validates each card in milliseconds. If the UID is registered, the servo motor opens the simulated door. If the card is unknown, the red LED and buzzer alert the failed attempt.</p>
+
+    <div class="video-grid">
+      <!-- Video 1: tarjeta incorrecta -->
+      <div class="video-card">
+        <div class="video-box">
+          <video controls preload="metadata">
+            <source src="assets/video_tarjeta_incorrecta.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="vc-info">
+          <span class="vc-cat es">Acceso denegado</span>
+          <span class="vc-cat en hide">Access denied</span>
+          <div class="vc-title es">Tarjeta no autorizada: alerta roja</div>
+          <div class="vc-title en hide">Unauthorized card: red alert</div>
+          <p class="vc-desc es">Al presentar una tarjeta con UID no registrado, el sistema activa el LED rojo y el buzzer, registrando y rechazando el intento de acceso no autorizado.</p>
+          <p class="vc-desc en hide">When an unregistered UID card is presented, the system activates the red LED and buzzer, logging and rejecting the unauthorized access attempt.</p>
+        </div>
+      </div>
+      <!-- Video 2: servo -->
+      <div class="video-card">
+        <div class="video-box">
+          <video controls preload="metadata">
+            <source src="assets/video_servo.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="vc-info">
+          <span class="vc-cat es">Acceso autorizado</span>
+          <span class="vc-cat en hide">Access granted</span>
+          <div class="vc-title es">Tarjeta autorizada: el servo abre la puerta</div>
+          <div class="vc-title en hide">Authorized card: servo opens the door</div>
+          <p class="vc-desc es">Con un UID válido, el Arduino acciona el servomotor que simula la apertura de la sala de servidores. El LED verde confirma el acceso y el servo regresa a posición cerrada automáticamente.</p>
+          <p class="vc-desc en hide">With a valid UID, the Arduino activates the servo motor simulating the server room door opening. The green LED confirms access and the servo returns to closed position automatically.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PHASES BAR ═══ -->
 <div class="phases-bar fu">
   <div class="phases-inner">
-    <p class="ph-label es">Fases del proyecto</p>
-    <p class="ph-label en hide">Project phases</p>
+    <p class="ph-label es">Estado actual del proyecto</p>
+    <p class="ph-label en hide">Current project status</p>
     <div class="phases-track">
-      <div class="phase"><div class="ph-num">01</div><div class="ph-name es">Diseño</div><div class="ph-name en hide">Design</div><span class="ph-status done es">Completada</span><span class="ph-status done en hide">Done</span></div>
-      <div class="phase"><div class="ph-num">02</div><div class="ph-name es">Construcción</div><div class="ph-name en hide">Build</div><span class="ph-status active es">En progreso</span><span class="ph-status active en hide">In progress</span></div>
-      <div class="phase"><div class="ph-num">03</div><div class="ph-name es">Red</div><div class="ph-name en hide">Network</div><span class="ph-status pending es">Pendiente</span><span class="ph-status pending en hide">Pending</span></div>
-      <div class="phase"><div class="ph-num">04</div><div class="ph-name es">Soporte</div><div class="ph-name en hide">Support</div><span class="ph-status pending es">Pendiente</span><span class="ph-status pending en hide">Pending</span></div>
-      <div class="phase"><div class="ph-num">05</div><div class="ph-name es">Docs</div><span class="ph-status pending es">Pendiente</span><span class="ph-status pending en hide">Pending</span></div>
+      <div class="phase">
+        <div class="ph-num">01</div>
+        <div class="ph-name es">Diseño</div><div class="ph-name en hide">Design</div>
+        <span class="ph-status done es">Completada</span><span class="ph-status done en hide">Done</span>
+      </div>
+      <div class="phase">
+        <div class="ph-num">02</div>
+        <div class="ph-name es">Construcción</div><div class="ph-name en hide">Build</div>
+        <span class="ph-status active es">En progreso</span><span class="ph-status active en hide">In progress</span>
+      </div>
+      <div class="phase">
+        <div class="ph-num">03</div>
+        <div class="ph-name es">Electrónica</div><div class="ph-name en hide">Electronics</div>
+        <span class="ph-status active es">En progreso</span><span class="ph-status active en hide">In progress</span>
+      </div>
+      <div class="phase">
+        <div class="ph-num">04</div>
+        <div class="ph-name es">Monitoreo</div><div class="ph-name en hide">Monitoring</div>
+        <span class="ph-status active es">En progreso</span><span class="ph-status active en hide">In progress</span>
+      </div>
+      <div class="phase">
+        <div class="ph-num">05</div>
+        <div class="ph-name es">Acceso</div><div class="ph-name en hide">Access</div>
+        <span class="ph-status active es">En progreso</span><span class="ph-status active en hide">In progress</span>
+      </div>
     </div>
   </div>
 </div>
@@ -297,7 +631,6 @@ function toggleTheme(){
   const isDark=h.getAttribute('data-theme')==='dark';
   h.setAttribute('data-theme',isDark?'light':'dark');
   document.getElementById('nav-logo').src=isDark?'assets/velox_fondo_blanco.png':'assets/velox_fondo_negro.png';
-  
 }
 function setLang(l){
   document.querySelectorAll('.es').forEach(e=>e.classList.toggle('hide',l!=='es'));
@@ -305,14 +638,14 @@ function setLang(l){
   document.getElementById('bes').classList.toggle('on',l==='es');
   document.getElementById('ben').classList.toggle('on',l==='en');
 }
-function filterCat(cat,btn){
+function filterSec(sec,btn){
   document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  document.querySelectorAll('.post-card').forEach(card=>{
-    card.style.display=(cat==='all'||card.dataset.cat===cat)?'block':'none';
+  document.querySelectorAll('.seg-block').forEach(s=>{
+    s.style.display=(sec==='all'||s.dataset.s===sec)?'block':'none';
   });
 }
-const ob=new IntersectionObserver(e=>e.forEach(i=>{if(i.isIntersecting)i.target.classList.add('vis');}),{threshold:0.07});
+const ob=new IntersectionObserver(e=>e.forEach(i=>{if(i.isIntersecting)i.target.classList.add('vis');}),{threshold:0.05});
 document.querySelectorAll('.fu').forEach(e=>ob.observe(e));
 </script>
 </body>
