@@ -6,201 +6,183 @@
 <title>Blog — Velox Datacenter</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#fff;--bg2:#f5f5f5;--text:#0a0a0a;--text2:#666;--border:rgba(0,0,0,0.1);--nav-bg:rgba(255,255,255,0.94);--card-bg:#f7f7f7;--toggle-bg:#ddd}
-[data-theme="dark"]{--bg:#000000;--bg2:#141414;--text:#f0f0f0;--text2:rgba(255,255,255,0.4);--border:rgba(255,255,255,0.08);--nav-bg:#000000;--card-bg:#111;--toggle-bg:#333}
-*{margin:0;padding:0;box-sizing:border-box;transition:background 0.35s,color 0.25s,border-color 0.25s}
-body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-weight:400;overflow-x:hidden;font-size:14px}
-canvas#pts{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
-nav,section,header,footer,div{position:relative;z-index:1}
+:root {
+  --bg: #F8FAFC;
+  --bg2: #F1F5F9;
+  --text: #0F172A;
+  --text2: #475569;
+  --border: #E2E8F0;
+  --nav-bg: rgba(255, 255, 255, 0.75);
+  --card-bg: #FFFFFF;
+  --toggle-bg: #CBD5E1;
+  --accent: #0F172A;
+  --accent-text: #FFFFFF;
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+  --shadow-hover: 0 10px 30px -4px rgba(0, 0, 0, 0.1);
+}
 
-/* ── NAV (idéntico al original) ── */
-nav{display:flex;justify-content:space-between;align-items:center;padding:1rem 3rem;border-bottom:0.5px solid var(--border);position:sticky;top:0;background:var(--nav-bg);backdrop-filter:blur(10px);z-index:100}
-.logo img{height:52px;object-fit:contain}
-.nav-links{display:flex;gap:2rem}
-.nav-links a{color:var(--text2);text-decoration:none;font-size:0.72rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;transition:color 0.2s}
-.nav-links a:hover,.nav-links a.active{color:var(--text)}
-.nav-right{display:flex;align-items:center;gap:1rem}
-.lb{background:none;border:none;cursor:pointer;font-family:'Inter',sans-serif;font-size:0.68rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--text2);padding:0.2rem 0.4rem}
-.lb.on{color:var(--text);border-bottom:1px solid var(--text)}
-.lsep{color:var(--border);font-size:0.7rem}
-.tt{width:40px;height:22px;border-radius:11px;background:var(--toggle-bg);border:none;cursor:pointer;position:relative;flex-shrink:0}
-.tt::after{content:'';position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:var(--text);transition:transform 0.3s}
-[data-theme="dark"] .tt::after{transform:translateX(18px)}
-.nav-cta{border:0.5px solid var(--border);padding:0.45rem 1.1rem;font-size:0.68rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--text);text-decoration:none;transition:all 0.2s}
-.nav-cta:hover{background:var(--text);color:var(--bg)}
+[data-theme="dark"] {
+  --bg: #0B0F19;
+  --bg2: #111827;
+  --text: #F8FAFC;
+  --text2: #94A3B8;
+  --border: #1E293B;
+  --nav-bg: rgba(11, 15, 25, 0.75);
+  --card-bg: #0F172A;
+  --toggle-bg: #334155;
+  --accent: #38BDF8;
+  --accent-text: #0B0F19;
+  --shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4);
+  --shadow-hover: 0 10px 30px -4px rgba(0, 0, 0, 0.6);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; transition: background 0.35s, color 0.25s, border-color 0.25s, box-shadow 0.3s; }
+body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; font-weight: 400; overflow-x: hidden; font-size: 15px; }
+canvas#pts { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+nav, section, header, footer, div { position: relative; z-index: 1; }
+
+/* ── NAV ── */
+nav { display: flex; justify-content: space-between; align-items: center; padding: 1rem 3rem; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--nav-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); z-index: 100; }
+.logo img { height: 48px; object-fit: contain; }
+.nav-links { display: flex; gap: 2.5rem; }
+.nav-links a { color: var(--text2); text-decoration: none; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; }
+.nav-links a:hover, .nav-links a.active { color: var(--text); }
+.nav-right { display: flex; align-items: center; gap: 1.5rem; }
+.lb { background: none; border: none; cursor: pointer; font-family: 'Inter', sans-serif; font-size: 0.7rem; font-weight: 600; color: var(--text2); padding: 0.2rem; }
+.lb.on { color: var(--text); border-bottom: 2px solid var(--accent); }
+.lsep { color: var(--border); font-size: 0.7rem; }
+.tt { width: 44px; height: 24px; border-radius: 12px; background: var(--toggle-bg); border: none; cursor: pointer; position: relative; flex-shrink: 0; }
+.tt::after { content: ''; position: absolute; top: 4px; left: 4px; width: 16px; height: 16px; border-radius: 50%; background: var(--text); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+[data-theme="dark"] .tt::after { transform: translateX(20px); background: var(--accent); }
+.nav-cta { background: var(--text); padding: 0.6rem 1.2rem; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--bg); text-decoration: none; border-radius: var(--radius-sm); }
+.nav-cta:hover { opacity: 0.9; transform: translateY(-1px); }
+[data-theme="dark"] .nav-cta { background: var(--accent); color: var(--accent-text); }
 
 /* ── HEADER ── */
-.blog-header{padding:3.5rem 3rem 2.5rem;border-bottom:0.5px solid var(--border)}
-.blog-header-top{display:flex;justify-content:space-between;align-items:flex-end}
-.blog-tag{font-size:0.6rem;font-weight:600;letter-spacing:0.25em;text-transform:uppercase;color:var(--text2);margin-bottom:0.8rem}
-.blog-header h1{font-size:clamp(1.8rem,4vw,3rem);font-weight:700;color:var(--text);letter-spacing:-0.02em;line-height:1.1}
-.blog-header h1 em{font-style:normal;font-weight:300;color:var(--text2)}
-.blog-count{font-size:0.75rem;color:var(--text2)}
+.blog-header { padding: 4rem 3rem 2rem; max-width: 1200px; margin: 0 auto; }
+.blog-header-top { display: flex; justify-content: space-between; align-items: flex-end; }
+.blog-tag { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; display: inline-block; background: var(--bg2); padding: 0.4rem 0.8rem; border-radius: var(--radius-sm); }
+.blog-header h1 { font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 800; color: var(--text); letter-spacing: -0.03em; line-height: 1.1; }
+.blog-header h1 em { font-style: normal; font-weight: 300; color: var(--text2); }
+.blog-count { font-size: 0.8rem; font-weight: 500; color: var(--text2); background: var(--card-bg); padding: 0.4rem 0.8rem; border-radius: var(--radius-sm); border: 1px solid var(--border); box-shadow: var(--shadow); }
 
 /* ── FILTERS ── */
-.filters{display:flex;gap:0;border-bottom:0.5px solid var(--border);padding:0 3rem;overflow-x:auto;scrollbar-width:none}
-.filters::-webkit-scrollbar{display:none}
-.filter-btn{background:none;border:none;cursor:pointer;font-family:'Inter',sans-serif;font-size:0.68rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--text2);padding:1rem 1.2rem;border-bottom:2px solid transparent;transition:all 0.2s;white-space:nowrap}
-.filter-btn:hover{color:var(--text)}
-.filter-btn.active{color:var(--text);border-bottom-color:var(--text)}
+.filters { display: flex; gap: 0.8rem; padding: 0 3rem 2rem; max-width: 1200px; margin: 0 auto; overflow-x: auto; scrollbar-width: none; }
+.filters::-webkit-scrollbar { display: none; }
+.filter-btn { background: var(--card-bg); border: 1px solid var(--border); border-radius: 100px; cursor: pointer; font-family: 'Inter', sans-serif; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text2); padding: 0.6rem 1.2rem; transition: all 0.2s ease; white-space: nowrap; box-shadow: var(--shadow); }
+.filter-btn:hover { border-color: var(--text2); color: var(--text); transform: translateY(-1px); }
+.filter-btn.active { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
+
+/* ── MAIN CONTENT AREA ── */
+.seg-block { max-width: 1000px; margin: 0 auto; }
 
 /* ── STAGE DIVIDER ── */
-.stage-divider{display:flex;align-items:center;gap:1rem;padding:2.5rem 3rem 0;font-size:0.58rem;font-weight:600;letter-spacing:0.25em;text-transform:uppercase;color:var(--text2)}
-.stage-divider::after{content:'';flex:1;height:0.5px;background:var(--border)}
-.s-badge{display:inline-block;font-size:0.55rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;padding:0.2rem 0.65rem;border-radius:2px}
-.s-done{background:var(--bg2);color:var(--text2)}
-.s-active{background:var(--text);color:var(--bg)}
+.stage-divider { display: flex; align-items: center; gap: 1rem; padding: 2rem 3rem 1rem; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text2); }
+.stage-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+.s-badge { display: inline-block; font-size: 0.6rem; padding: 0.3rem 0.8rem; border-radius: 100px; }
+.s-done { background: var(--bg2); color: var(--text2); border: 1px solid var(--border); }
+.s-active { background: rgba(56, 189, 248, 0.1); color: #0284C7; border: 1px solid rgba(56, 189, 248, 0.3); }
+[data-theme="dark"] .s-active { color: #38BDF8; }
 
-/* ── ENTRY CARD — vertical, imagen arriba, texto abajo ── */
-.entry-card{border-bottom:0.5px solid var(--border);padding:2rem 3rem 2.5rem}
-.entry-card:last-of-type{border-bottom:none}
+/* ── ENTRY CARD (Modernizada) ── */
+.entry-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; margin: 0 3rem 2.5rem; box-shadow: var(--shadow); }
+.entry-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
 
-/* imagen centrada, tamaño contenido */
-.entry-img-wrap{
-  width:100%;
-  max-height:400px;        /* altura máxima de la foto */
-  overflow:hidden;
-  background:var(--bg2);
-  border:0.5px solid var(--border);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  position:relative;
-  margin-bottom:1.5rem;
-}
-.entry-img-wrap img{
-  width:100%;
-  height:400px;
-  object-fit:cover;        /* recorta para llenar limpio */
-  display:block;
-  transition:transform 0.6s ease;
-}
-.entry-img-wrap:hover img{transform:scale(1.03)}
+/* Contenedores de imágenes fluidos con Aspect Ratio */
+.entry-img-wrap { width: 100%; aspect-ratio: 16/9; background: var(--bg2); border-radius: var(--radius-md); overflow: hidden; position: relative; margin-bottom: 1.8rem; border: 1px solid var(--border); }
+.entry-img-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+.entry-img-wrap:hover img { transform: scale(1.04); }
 
-/* dos imágenes lado a lado */
-.entry-img-duo{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:0;
-  border:0.5px solid var(--border);
-  max-height:380px;
-  overflow:hidden;
-  margin-bottom:1.5rem;
-  background:var(--bg2);
-}
-.entry-img-duo img{
-  width:100%;
-  height:380px;
-  object-fit:cover;
-  display:block;
-  transition:transform 0.6s;
-}
-.entry-img-duo img:hover{transform:scale(1.03)}
-.entry-img-duo img+img{border-left:0.5px solid var(--border)}
+.entry-img-duo { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.8rem; }
+.entry-img-duo img { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: var(--radius-md); border: 1px solid var(--border); transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+.entry-img-duo img:hover { transform: scale(1.04); }
 
-/* tres imágenes: grande arriba, dos abajo */
-.entry-img-trio{
-  border:0.5px solid var(--border);
-  margin-bottom:1.5rem;
-  background:var(--bg2);
-  overflow:hidden;
-}
-.trio-top{overflow:hidden;height:260px;position:relative}
-.trio-top img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.6s}
-.trio-top:hover img{transform:scale(1.03)}
-.trio-bottom{display:grid;grid-template-columns:1fr 1fr;border-top:0.5px solid var(--border)}
-.trio-bottom img{width:100%;height:200px;object-fit:cover;display:block;transition:transform 0.6s}
-.trio-bottom img:hover{transform:scale(1.03)}
-.trio-bottom img+img{border-left:0.5px solid var(--border)}
+.entry-img-trio { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.8rem; }
+.trio-top { grid-column: 1 / -1; width: 100%; aspect-ratio: 16/7; overflow: hidden; border-radius: var(--radius-md); border: 1px solid var(--border); position: relative; }
+.trio-top img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+.trio-top:hover img { transform: scale(1.04); }
+.trio-bottom { display: contents; }
+.trio-bottom img { width: 100%; aspect-ratio: 4/3; object-fit: cover; border-radius: var(--radius-md); border: 1px solid var(--border); transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+.trio-bottom img:hover { transform: scale(1.04); }
 
-/* caption sobre la imagen */
-.img-cap{position:absolute;bottom:0;left:0;right:0;padding:0.6rem 1rem;font-size:0.58rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.75);background:linear-gradient(transparent,rgba(0,0,0,0.55));pointer-events:none}
+/* Caption sobre la imagen */
+.img-cap { position: absolute; bottom: 0; left: 0; right: 0; padding: 1rem; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.05em; color: #FFF; background: linear-gradient(transparent, rgba(0,0,0,0.8)); pointer-events: none; border-bottom-left-radius: var(--radius-md); border-bottom-right-radius: var(--radius-md); }
 
-/* texto del entry */
-.entry-meta-row{display:flex;align-items:center;gap:0.8rem;margin-bottom:0.8rem;flex-wrap:wrap}
-.e-cat{font-size:0.58rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--text2);border:0.5px solid var(--border);padding:0.18rem 0.55rem}
-.e-badge{font-size:0.55rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;padding:0.18rem 0.55rem;border-radius:2px}
-.e-done{background:var(--bg2);color:var(--text2)}
-.e-active{background:var(--text);color:var(--bg)}
-.e-date{font-size:0.6rem;color:var(--text2)}
+/* Texto del entry */
+.entry-meta-row { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; flex-wrap: wrap; }
+.e-cat { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text); background: var(--bg2); padding: 0.3rem 0.6rem; border-radius: var(--radius-sm); }
+.e-badge { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.3rem 0.6rem; border-radius: 100px; }
+.e-done { background: rgba(34, 197, 94, 0.1); color: #16A34A; }
+[data-theme="dark"] .e-done { color: #4ADE80; }
+.e-active { background: rgba(56, 189, 248, 0.1); color: #0284C7; }
+[data-theme="dark"] .e-active { color: #38BDF8; }
+.e-date { font-size: 0.7rem; font-weight: 500; color: var(--text2); margin-left: auto; }
 
-.entry-card h2{font-size:clamp(1rem,2vw,1.4rem);font-weight:700;color:var(--text);letter-spacing:-0.02em;line-height:1.25;margin-bottom:0.8rem}
-.entry-card p{font-size:0.8rem;color:var(--text2);line-height:1.9;margin-bottom:0.7rem}
-.entry-card p:last-of-type{margin-bottom:0}
-.entry-card p strong{color:var(--text);font-weight:500}
-.entry-foot{display:flex;flex-wrap:wrap;gap:1rem;margin-top:1.2rem;padding-top:1rem;border-top:0.5px solid var(--border);font-size:0.6rem;color:var(--text2)}
+.entry-card h2 { font-size: clamp(1.2rem, 2vw, 1.6rem); font-weight: 800; color: var(--text); letter-spacing: -0.02em; line-height: 1.3; margin-bottom: 1rem; }
+.entry-card p { font-size: 0.95rem; color: var(--text2); line-height: 1.8; margin-bottom: 1rem; }
+.entry-card p:last-of-type { margin-bottom: 0; }
+.entry-card p strong { color: var(--text); font-weight: 600; }
+.entry-foot { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); font-size: 0.7rem; font-weight: 500; color: var(--text2); }
 
-/* ── VIDEOS — ratio vertical 9:16 ── */
-.video-section{padding:2rem 3rem 2.5rem;border-bottom:0.5px solid var(--border)}
-.video-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:1.5rem}
-.video-card{border:0.5px solid var(--border);background:var(--card-bg);overflow:hidden}
+/* ── VIDEOS ── */
+.video-section { margin: 0 3rem 3rem; background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; box-shadow: var(--shadow); }
+.video-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 1.5rem; }
+.video-card { border: 1px solid var(--border); background: var(--bg2); border-radius: var(--radius-md); overflow: hidden; }
+.video-box { position: relative; width: 100%; aspect-ratio: 9/16; background: #000; overflow: hidden; }
+.video-box video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+.vc-info { padding: 1.5rem; background: var(--card-bg); }
+.vc-cat { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.6rem; }
+.vc-title { font-size: 1rem; font-weight: 700; color: var(--text); letter-spacing: -0.01em; line-height: 1.4; margin-bottom: 0.8rem; }
+.vc-desc { font-size: 0.85rem; color: var(--text2); line-height: 1.7; }
 
-/* contenedor con aspect-ratio fijo 9:16 para video vertical */
-.video-box{
-  position:relative;
-  width:100%;
-  padding-top:177.78%;   /* 16/9 × 100 = proporción vertical */
-  background:#000;
-  overflow:hidden;
-}
-.video-box video{
-  position:absolute;
-  top:0;left:0;
-  width:100%;height:100%;
-  object-fit:contain;    /* no recortar — mostrar completo */
-  display:block;
-}
+/* ── PHASES BAR ── */
+.phases-bar { border-top: 1px solid var(--border); background: var(--card-bg); margin-top: 4rem; }
+.phases-inner { padding: 3rem; max-width: 1200px; margin: 0 auto; }
+.ph-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text2); margin-bottom: 2rem; text-align: center; }
+.phases-track { display: flex; gap: 1rem; justify-content: space-between; }
+.phase { flex: 1; padding: 1.5rem; background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-md); text-align: center; transition: transform 0.2s ease; }
+.phase:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+.ph-num { font-size: 2rem; font-weight: 800; color: var(--border); letter-spacing: -0.03em; line-height: 1; margin-bottom: 0.8rem; }
+.ph-name { font-size: 0.85rem; font-weight: 700; color: var(--text); margin-bottom: 0.8rem; }
+.ph-status { display: inline-block; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.3rem 0.8rem; border-radius: 100px; }
+.ph-status.done { background: rgba(34, 197, 94, 0.1); color: #16A34A; }
+[data-theme="dark"] .ph-status.done { color: #4ADE80; }
+.ph-status.active { background: rgba(56, 189, 248, 0.1); color: #0284C7; }
+[data-theme="dark"] .ph-status.active { color: #38BDF8; }
 
-.vc-info{padding:1.2rem 1.4rem}
-.vc-cat{font-size:0.55rem;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--text2);display:block;margin-bottom:0.4rem}
-.vc-title{font-size:0.9rem;font-weight:600;color:var(--text);letter-spacing:-0.01em;line-height:1.35;margin-bottom:0.5rem}
-.vc-desc{font-size:0.75rem;color:var(--text2);line-height:1.8}
+/* ── FOOTER ── */
+footer { padding: 2rem 3rem; border-top: 1px solid var(--border); background: var(--nav-bg); display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(10px); }
+.fl { font-size: 0.85rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; color: var(--text); }
+.flinks { display: flex; gap: 2rem; }
+.flinks a { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text2); text-decoration: none; }
+.flinks a:hover { color: var(--text); }
+.fc { font-size: 0.75rem; font-weight: 500; color: var(--text2); }
 
-/* ── PHASES (igual al original) ── */
-.phases-bar{border-top:0.5px solid var(--border);border-bottom:0.5px solid var(--border)}
-.phases-inner{padding:2.5rem 3rem}
-.ph-label{font-size:0.6rem;font-weight:600;letter-spacing:0.25em;text-transform:uppercase;color:var(--text2);margin-bottom:1.5rem}
-.phases-track{display:flex;gap:0}
-.phase{flex:1;padding:1.5rem;border:0.5px solid var(--border)}
-.ph-num{font-size:1.5rem;font-weight:700;color:var(--bg2);letter-spacing:-0.03em;line-height:1;margin-bottom:0.6rem}
-.ph-name{font-size:0.75rem;font-weight:600;color:var(--text);margin-bottom:0.4rem}
-.ph-status{display:inline-block;font-size:0.58rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;padding:0.18rem 0.55rem;border-radius:2px}
-.ph-status.done{background:var(--bg2);color:var(--text2)}
-.ph-status.active{background:var(--text);color:var(--bg)}
-.ph-status.pending{border:0.5px solid var(--border);color:var(--text2)}
-
-/* ── FOOTER (igual al original) ── */
-footer{padding:1.5rem 3rem;border-top:0.5px solid var(--border);display:flex;justify-content:space-between;align-items:center}
-.fl{font-size:0.78rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--text2)}
-.flinks{display:flex;gap:1.8rem}
-.flinks a{font-size:0.62rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--text2);text-decoration:none;transition:color 0.2s}
-.flinks a:hover{color:var(--text)}
-.fc{font-size:0.6rem;color:var(--text2)}
-
-.fu{opacity:0;transform:translateY(18px);transition:opacity 0.6s ease,transform 0.6s ease}
-.fu.vis{opacity:1;transform:translateY(0)}
-.hide{display:none!important}
-.seg-block{position:relative;z-index:1}
+/* Utilities */
+.fu { opacity: 0; transform: translateY(24px); transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
+.fu.vis { opacity: 1; transform: translateY(0); }
+.hide { display: none !important; }
+code { background: var(--bg2); padding: 0.2rem 0.4rem; border-radius: 4px; font-size: 0.85rem; font-family: monospace; border: 1px solid var(--border); }
 
 @media(max-width:860px){
-  nav{padding:1rem 1.2rem}
-  .nav-links{display:none}
-  .blog-header,.filters,.stage-divider,.entry-card,.video-section,.phases-inner{padding-left:1.2rem;padding-right:1.2rem}
-  .entry-img-duo,.entry-img-trio .trio-bottom{grid-template-columns:1fr}
-  .entry-img-duo img+img{border-left:none;border-top:0.5px solid var(--border)}
-  .trio-bottom img+img{border-left:none;border-top:0.5px solid var(--border)}
-  .trio-bottom img{height:160px}
-  .video-grid{grid-template-columns:1fr}
-  .phases-track{flex-wrap:wrap}
-  .phase{flex:1 1 40%}
-  footer{flex-direction:column;gap:1rem;text-align:center;padding:1.5rem 1.2rem}
+  nav { padding: 1rem; }
+  .nav-links { display: none; }
+  .blog-header, .filters { padding-left: 1.5rem; padding-right: 1.5rem; }
+  .stage-divider, .entry-card, .video-section { margin-left: 1.5rem; margin-right: 1.5rem; }
+  .entry-img-duo, .entry-img-trio { grid-template-columns: 1fr; }
+  .trio-top, .entry-img-duo img, .trio-bottom img { aspect-ratio: 16/9; }
+  .video-grid { grid-template-columns: 1fr; }
+  .phases-track { flex-direction: column; gap: 1rem; }
+  footer { flex-direction: column; gap: 1.5rem; text-align: center; }
 }
 </style>
 </head>
 <body>
 <canvas id="pts"></canvas>
 
-<!-- ═══ NAV ═══ -->
 <nav>
   <div class="logo">
     <img src="assets/velox_fondo_blanco.png" id="nav-logo" alt="Velox Datacenter">
@@ -214,7 +196,7 @@ footer{padding:1.5rem 3rem;border-top:0.5px solid var(--border);display:flex;jus
     <a href="solicitud.html" class="en hide">Access Request</a>
   </div>
   <div class="nav-right">
-    <div style="display:flex;align-items:center;gap:0.2rem">
+    <div style="display:flex;align-items:center;gap:0.5rem">
       <button class="lb on" id="bes" onclick="setLang('es')">ES</button>
       <span class="lsep">|</span>
       <button class="lb" id="ben" onclick="setLang('en')">EN</button>
@@ -225,12 +207,11 @@ footer{padding:1.5rem 3rem;border-top:0.5px solid var(--border);display:flex;jus
   </div>
 </nav>
 
-<!-- ═══ HEADER ═══ -->
 <header class="blog-header fu">
   <div class="blog-header-top">
     <div>
-      <p class="blog-tag es">Seguimiento del proyecto — Velox Datacenter</p>
-      <p class="blog-tag en hide">Project log — Velox Datacenter</p>
+      <p class="blog-tag es">Seguimiento del proyecto</p>
+      <p class="blog-tag en hide">Project log</p>
       <h1 class="es">Construimos un datacenter.<br><em>Desde cero.</em></h1>
       <h1 class="en hide">We're building a datacenter.<br><em>From scratch.</em></h1>
     </div>
@@ -239,7 +220,6 @@ footer{padding:1.5rem 3rem;border-top:0.5px solid var(--border);display:flex;jus
   </div>
 </header>
 
-<!-- ═══ FILTERS ═══ -->
 <div class="filters fu">
   <button class="filter-btn active" onclick="filterSec('all',this)">
     <span class="es">Todas</span><span class="en hide">All</span>
@@ -264,7 +244,6 @@ footer{padding:1.5rem 3rem;border-top:0.5px solid var(--border);display:flex;jus
   </button>
 </div>
 
-<!-- ═══════════════ DISEÑO ═══════════════ -->
 <div class="seg-block fu" data-s="diseno">
   <div class="stage-divider">
     <span class="es">01 · Diseño</span><span class="en hide">01 · Design</span>
@@ -272,7 +251,6 @@ footer{padding:1.5rem 3rem;border-top:0.5px solid var(--border);display:flex;jus
     <span class="s-badge s-done en hide">Done</span>
   </div>
 
-  <!-- Render 3D -->
   <div class="entry-card">
     <div class="entry-img-wrap">
       <img src="assets/img_render3d.jpeg" alt="Render 3D Velox">
@@ -291,7 +269,6 @@ footer{padding:1.5rem 3rem;border-top:0.5px solid var(--border);display:flex;jus
     <p class="en hide">The zone marked <strong>"Authorized personnel only"</strong> was the conceptual starting point for the RFID access control system implemented later.</p>
   </div>
 
-  <!-- Plano de planta -->
   <div class="entry-card">
     <div class="entry-img-wrap">
       <img src="assets/img_plano.jpeg" alt="Plano de planta profesional">
@@ -315,7 +292,6 @@ footer{padding:1.5rem 3rem;border-top:0.5px solid var(--border);display:flex;jus
   </div>
 </div>
 
-<!-- ═══════════════ COMPONENTES ═══════════════ -->
 <div class="seg-block fu" data-s="componentes">
   <div class="stage-divider">
     <span class="es">02 · Componentes</span><span class="en hide">02 · Components</span>
@@ -346,7 +322,6 @@ footer{padding:1.5rem 3rem;border-top:0.5px solid var(--border);display:flex;jus
   </div>
 </div>
 
-<!-- ═══════════════ CONSTRUCCIÓN ═══════════════ -->
 <div class="seg-block fu" data-s="construccion">
   <div class="stage-divider">
     <span class="es">03 · Construcción física</span><span class="en hide">03 · Physical build</span>
@@ -354,7 +329,6 @@ footer{padding:1.5rem 3rem;border-top:0.5px solid var(--border);display:flex;jus
     <span class="s-badge s-active en hide">In progress</span>
   </div>
 
-  <!-- Pieza inicial -->
   <div class="entry-card">
     <div class="entry-img-wrap">
       <img src="assets/img_estructura1.jpeg" alt="Primera pieza de la maqueta">
@@ -371,7 +345,6 @@ footer{padding:1.5rem 3rem;border-top:0.5px solid var(--border);display:flex;jus
     <p class="en hide">Physical construction started with <strong>black and white cardboard</strong> measured, marked and hand-folded according to the floor plan. The color scheme was deliberate: black inside to simulate the controlled environment of a real datacenter, white outside for the exterior finish.</p>
   </div>
 
-  <!-- Ensamblaje + exterior (trio) -->
   <div class="entry-card">
     <div class="entry-img-trio">
       <div class="trio-top">
@@ -401,15 +374,12 @@ footer{padding:1.5rem 3rem;border-top:0.5px solid var(--border);display:flex;jus
   </div>
 </div>
 
-<!-- ═══════════════ ELECTRÓNICA ═══════════════ -->
 <div class="seg-block fu" data-s="electronica">
   <div class="stage-divider">
     <span class="es">04 · Electrónica</span><span class="en hide">04 · Electronics</span>
-    <span class="s-badge s-active es">En progreso</span>
-    <span class="s-badge s-active en hide">In progress</span>
+    <span class="s-badge s-active es">En progreso</span><span class="s-badge s-active en hide">In progress</span>
   </div>
 
-  <!-- Diagrama Arduino -->
   <div class="entry-card">
     <div class="entry-img-wrap">
       <img src="assets/img_arduino.jpeg" alt="Diagrama Arduino Mega en Proteus">
@@ -428,7 +398,6 @@ footer{padding:1.5rem 3rem;border-top:0.5px solid var(--border);display:flex;jus
     <p class="en hide">Simulating first allowed detecting wiring errors and validating logic before risking real components. The DHT22 in simulation already reported <strong>80% humidity and 27°C</strong>, values later confirmed in the Grafana dashboard.</p>
   </div>
 
-  <!-- Baterías + regulador -->
   <div class="entry-card">
     <div class="entry-img-duo">
       <img src="assets/img_bateria2.jpeg" alt="Portabaterías 18650">
@@ -447,7 +416,6 @@ footer{padding:1.5rem 3rem;border-top:0.5px solid var(--border);display:flex;jus
     <p class="en hide">This setup allows the model to operate <strong>fully autonomously</strong>, without relying on a wall outlet — just like a real system with UPS that maintains operation during power outages.</p>
   </div>
 
-  <!-- Circuito completo -->
   <div class="entry-card">
     <div class="entry-img-wrap">
       <img src="assets/img_circuito2.jpeg" alt="Circuito completo ensamblado">
@@ -470,12 +438,10 @@ footer{padding:1.5rem 3rem;border-top:0.5px solid var(--border);display:flex;jus
   </div>
 </div>
 
-<!-- ═══════════════ MONITOREO ═══════════════ -->
 <div class="seg-block fu" data-s="monitoreo">
   <div class="stage-divider">
     <span class="es">05 · Monitoreo</span><span class="en hide">05 · Monitoring</span>
-    <span class="s-badge s-active es">En progreso</span>
-    <span class="s-badge s-active en hide">In progress</span>
+    <span class="s-badge s-active es">En progreso</span><span class="s-badge s-active en hide">In progress</span>
   </div>
 
   <div class="entry-card">
@@ -490,10 +456,10 @@ footer{padding:1.5rem 3rem;border-top:0.5px solid var(--border);display:flex;jus
     </div>
     <h2 class="es">Grafana Cloud: el datacenter visible en tiempo real</h2>
     <h2 class="en hide">Grafana Cloud: the datacenter visible in real time</h2>
-    <p class="es">Los datos de los sensores se publican en un <strong>dashboard de Grafana Cloud</strong> en <code style="font-size:0.75rem;background:var(--bg2);padding:0.1rem 0.4rem;border-radius:2px">veloxdatacenter.grafana.net</code>. El panel muestra 4 gauges en tiempo real: <strong>Alarma</strong> (0 = sin incidente), <strong>Humedad</strong> (60%), <strong>Temperatura</strong> (24.5°C) y el timestamp del último dato recibido.</p>
-    <p class="en hide">Sensor data is published to a <strong>Grafana Cloud dashboard</strong> at <code style="font-size:0.75rem;background:var(--bg2);padding:0.1rem 0.4rem;border-radius:2px">veloxdatacenter.grafana.net</code>. The panel shows 4 real-time gauges: <strong>Alarm</strong> (0 = no incident), <strong>Humidity</strong> (60%), <strong>Temperature</strong> (24.5°C) and the last data timestamp.</p>
-    <p class="es">La fuente de datos es <strong>Amazon DynamoDB</strong>, donde el Arduino publica mediciones a través de una función Lambda. La query <code style="font-size:0.72rem;background:var(--bg2);padding:0.1rem 0.4rem;border-radius:2px">SELECT * FROM "Mediciones_DataCenter" LIMIT 50</code> trae los últimos registros para construir las gráficas de tendencia.</p>
-    <p class="en hide">The data source is <strong>Amazon DynamoDB</strong>, where the Arduino publishes measurements through a Lambda function. The query <code style="font-size:0.72rem;background:var(--bg2);padding:0.1rem 0.4rem;border-radius:2px">SELECT * FROM "Mediciones_DataCenter" LIMIT 50</code> fetches the latest records to build trend charts.</p>
+    <p class="es">Los datos de los sensores se publican en un <strong>dashboard de Grafana Cloud</strong> en <code>veloxdatacenter.grafana.net</code>. El panel muestra 4 gauges en tiempo real: <strong>Alarma</strong> (0 = sin incidente), <strong>Humedad</strong> (60%), <strong>Temperatura</strong> (24.5°C) y el timestamp del último dato recibido.</p>
+    <p class="en hide">Sensor data is published to a <strong>Grafana Cloud dashboard</strong> at <code>veloxdatacenter.grafana.net</code>. The panel shows 4 real-time gauges: <strong>Alarm</strong> (0 = no incident), <strong>Humidity</strong> (60%), <strong>Temperature</strong> (24.5°C) and the last data timestamp.</p>
+    <p class="es">La fuente de datos es <strong>Amazon DynamoDB</strong>, donde el Arduino publica mediciones a través de una función Lambda. La query <code>SELECT * FROM "Mediciones_DataCenter" LIMIT 50</code> trae los últimos registros para construir las gráficas de tendencia.</p>
+    <p class="en hide">The data source is <strong>Amazon DynamoDB</strong>, where the Arduino publishes measurements through a Lambda function. The query <code>SELECT * FROM "Mediciones_DataCenter" LIMIT 50</code> fetches the latest records to build trend charts.</p>
     <div class="entry-foot">
       <span>Stack: Arduino → DynamoDB → Grafana Cloud</span>
       <span class="es">Intervalo: 20 minutos</span>
@@ -502,12 +468,10 @@ footer{padding:1.5rem 3rem;border-top:0.5px solid var(--border);display:flex;jus
   </div>
 </div>
 
-<!-- ═══════════════ ACCESO ═══════════════ -->
 <div class="seg-block fu" data-s="acceso">
   <div class="stage-divider">
     <span class="es">06 · Control de acceso</span><span class="en hide">06 · Access control</span>
-    <span class="s-badge s-active es">En progreso</span>
-    <span class="s-badge s-active en hide">In progress</span>
+    <span class="s-badge s-active es">En progreso</span><span class="s-badge s-active en hide">In progress</span>
   </div>
 
   <div class="video-section">
@@ -516,13 +480,12 @@ footer{padding:1.5rem 3rem;border-top:0.5px solid var(--border);display:flex;jus
       <span class="e-badge e-active es">En progreso</span><span class="e-badge e-active en hide">In progress</span>
       <span class="e-date">Mayo 2026</span>
     </div>
-    <h2 class="es" style="font-size:clamp(1rem,2vw,1.4rem);font-weight:700;letter-spacing:-0.02em;margin-bottom:0.8rem">Sistema RFID: demos en funcionamiento</h2>
-    <h2 class="en hide" style="font-size:clamp(1rem,2vw,1.4rem);font-weight:700;letter-spacing:-0.02em;margin-bottom:0.8rem">RFID system: live demos</h2>
-    <p style="font-size:0.8rem;color:var(--text2);line-height:1.9;max-width:700px" class="es">El módulo RC522 valida cada tarjeta en milisegundos. Si el UID está registrado, el servomotor abre la puerta simulada y el LED verde se activa. Si la tarjeta es desconocida, el LED rojo y el buzzer alertan el intento fallido.</p>
-    <p style="font-size:0.8rem;color:var(--text2);line-height:1.9;max-width:700px" class="en hide">The RC522 module validates each card in milliseconds. If the UID is registered, the servo motor opens the simulated door. If the card is unknown, the red LED and buzzer alert the failed attempt.</p>
+    <h2 class="es" style="font-size:clamp(1.2rem, 2vw, 1.6rem); font-weight:800; letter-spacing:-0.02em; margin-bottom:1rem">Sistema RFID: demos en funcionamiento</h2>
+    <h2 class="en hide" style="font-size:clamp(1.2rem, 2vw, 1.6rem); font-weight:800; letter-spacing:-0.02em; margin-bottom:1rem">RFID system: live demos</h2>
+    <p style="font-size:0.95rem; color:var(--text2); line-height:1.8; max-width:800px; margin-bottom:2rem" class="es">El módulo RC522 valida cada tarjeta en milisegundos. Si el UID está registrado, el servomotor abre la puerta simulada y el LED verde se activa. Si la tarjeta es desconocida, el LED rojo y el buzzer alertan el intento fallido.</p>
+    <p style="font-size:0.95rem; color:var(--text2); line-height:1.8; max-width:800px; margin-bottom:2rem" class="en hide">The RC522 module validates each card in milliseconds. If the UID is registered, the servo motor opens the simulated door. If the card is unknown, the red LED and buzzer alert the failed attempt.</p>
 
     <div class="video-grid">
-      <!-- Video 1: tarjeta incorrecta -->
       <div class="video-card">
         <div class="video-box">
           <video controls preload="metadata">
@@ -538,7 +501,6 @@ footer{padding:1.5rem 3rem;border-top:0.5px solid var(--border);display:flex;jus
           <p class="vc-desc en hide">When an unregistered UID card is presented, the system activates the red LED and buzzer, logging and rejecting the unauthorized access attempt.</p>
         </div>
       </div>
-      <!-- Video 2: servo -->
       <div class="video-card">
         <div class="video-box">
           <video controls preload="metadata">
@@ -558,7 +520,6 @@ footer{padding:1.5rem 3rem;border-top:0.5px solid var(--border);display:flex;jus
   </div>
 </div>
 
-<!-- ═══ PHASES BAR ═══ -->
 <div class="phases-bar fu">
   <div class="phases-inner">
     <p class="ph-label es">Estado actual del proyecto</p>
@@ -604,49 +565,49 @@ footer{padding:1.5rem 3rem;border-top:0.5px solid var(--border);display:flex;jus
 </footer>
 
 <script>
-const c=document.getElementById('pts'),x=c.getContext('2d');
-let W,H,p=[];
-function rsz(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;}
-rsz();window.addEventListener('resize',rsz);
-for(let i=0;i<65;i++)p.push({x:Math.random()*window.innerWidth,y:Math.random()*window.innerHeight,vx:(Math.random()-.5)*.12,vy:(Math.random()-.5)*.12,r:Math.random()*1.1+.4});
-function gc(){return document.documentElement.getAttribute('data-theme')==='dark'?'rgba(255,255,255,0.25)':'rgba(0,0,0,0.12)';}
-function gl(a){return document.documentElement.getAttribute('data-theme')==='dark'?`rgba(255,255,255,${a})`:`rgba(0,0,0,${a})`;}
-function draw(){
+const c=document.getElementById('pts'), x=c.getContext('2d');
+let W, H, p=[];
+function rsz() { W = c.width = window.innerWidth; H = c.height = window.innerHeight; }
+rsz(); window.addEventListener('resize', rsz);
+for(let i=0; i<65; i++) p.push({ x:Math.random()*window.innerWidth, y:Math.random()*window.innerHeight, vx:(Math.random()-.5)*.12, vy:(Math.random()-.5)*.12, r:Math.random()*1.1+.4 });
+function gc() { return document.documentElement.getAttribute('data-theme')==='dark'?'rgba(255,255,255,0.2)':'rgba(15, 23, 42, 0.1)'; }
+function gl(a) { return document.documentElement.getAttribute('data-theme')==='dark'?`rgba(255,255,255,${a})`:`rgba(15, 23, 42,${a})`; }
+function draw() {
   x.clearRect(0,0,W,H);
-  for(let i=0;i<p.length;i++){
-    const a=p[i];a.x+=a.vx;a.y+=a.vy;
-    if(a.x<0)a.x=W;if(a.x>W)a.x=0;if(a.y<0)a.y=H;if(a.y>H)a.y=0;
-    x.beginPath();x.arc(a.x,a.y,a.r,0,Math.PI*2);x.fillStyle=gc();x.fill();
-    for(let j=i+1;j<p.length;j++){
-      const b=p[j],dx=a.x-b.x,dy=a.y-b.y,d=Math.sqrt(dx*dx+dy*dy);
-      if(d<120){x.beginPath();x.moveTo(a.x,a.y);x.lineTo(b.x,b.y);x.strokeStyle=gl(.05*(1-d/120));x.lineWidth=.4;x.stroke();}
+  for(let i=0; i<p.length; i++) {
+    const a=p[i]; a.x+=a.vx; a.y+=a.vy;
+    if(a.x<0) a.x=W; if(a.x>W) a.x=0; if(a.y<0) a.y=H; if(a.y>H) a.y=0;
+    x.beginPath(); x.arc(a.x, a.y, a.r, 0, Math.PI*2); x.fillStyle=gc(); x.fill();
+    for(let j=i+1; j<p.length; j++) {
+      const b=p[j], dx=a.x-b.x, dy=a.y-b.y, d=Math.sqrt(dx*dx+dy*dy);
+      if(d<120) { x.beginPath(); x.moveTo(a.x,a.y); x.lineTo(b.x,b.y); x.strokeStyle=gl(.05*(1-d/120)); x.lineWidth=.4; x.stroke(); }
     }
   }
   requestAnimationFrame(draw);
 }
 draw();
 
-function toggleTheme(){
-  const h=document.documentElement;
-  const isDark=h.getAttribute('data-theme')==='dark';
-  h.setAttribute('data-theme',isDark?'light':'dark');
-  document.getElementById('nav-logo').src=isDark?'assets/velox_fondo_blanco.png':'assets/velox_fondo_negro.png';
+function toggleTheme() {
+  const h = document.documentElement;
+  const isDark = h.getAttribute('data-theme') === 'dark';
+  h.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.getElementById('nav-logo').src = isDark ? 'assets/velox_fondo_blanco.png' : 'assets/velox_fondo_negro.png';
 }
-function setLang(l){
-  document.querySelectorAll('.es').forEach(e=>e.classList.toggle('hide',l!=='es'));
-  document.querySelectorAll('.en').forEach(e=>e.classList.toggle('hide',l!=='en'));
-  document.getElementById('bes').classList.toggle('on',l==='es');
-  document.getElementById('ben').classList.toggle('on',l==='en');
+function setLang(l) {
+  document.querySelectorAll('.es').forEach(e => e.classList.toggle('hide', l !== 'es'));
+  document.querySelectorAll('.en').forEach(e => e.classList.toggle('hide', l !== 'en'));
+  document.getElementById('bes').classList.toggle('on', l === 'es');
+  document.getElementById('ben').classList.toggle('on', l === 'en');
 }
-function filterSec(sec,btn){
-  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+function filterSec(sec, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  document.querySelectorAll('.seg-block').forEach(s=>{
-    s.style.display=(sec==='all'||s.dataset.s===sec)?'block':'none';
+  document.querySelectorAll('.seg-block').forEach(s => {
+    s.style.display = (sec === 'all' || s.dataset.s === sec) ? 'block' : 'none';
   });
 }
-const ob=new IntersectionObserver(e=>e.forEach(i=>{if(i.isIntersecting)i.target.classList.add('vis');}),{threshold:0.05});
-document.querySelectorAll('.fu').forEach(e=>ob.observe(e));
+const ob = new IntersectionObserver(e => e.forEach(i => { if(i.isIntersecting) i.target.classList.add('vis'); }), { threshold: 0.05 });
+document.querySelectorAll('.fu').forEach(e => ob.observe(e));
 </script>
 </body>
 </html>
