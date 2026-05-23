@@ -1,47 +1,32 @@
 <!DOCTYPE html>
-<html lang="es" data-theme="light">
+<html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Blog — Velox Datacenter</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
+/* ── PALETA ESTRICTA OSCURA POR DEFECTO ── */
 :root {
-  --bg: #F8FAFC;
-  --bg2: #F1F5F9;
-  --text: #0F172A;
-  --text2: #475569;
-  --border: #E2E8F0;
-  --nav-bg: rgba(255, 255, 255, 0.75);
-  --card-bg: #FFFFFF;
-  --toggle-bg: #CBD5E1;
-  --accent: #0F172A;
-  --accent-text: #FFFFFF;
+  --bg: #050505;
+  --bg2: #111111;
+  --text: #F5F5F5;
+  --text2: #999999;
+  --border: #222222;
+  --nav-bg: rgba(5, 5, 5, 0.85);
+  --card-bg: #0A0A0A;
+  --accent: #F5F5F5;
+  --accent-text: #050505;
   --radius-lg: 16px;
   --radius-md: 12px;
   --radius-sm: 8px;
-  --shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
-  --shadow-hover: 0 10px 30px -4px rgba(0, 0, 0, 0.1);
-}
-
-[data-theme="dark"] {
-  --bg: #0B0F19;
-  --bg2: #111827;
-  --text: #F8FAFC;
-  --text2: #94A3B8;
-  --border: #1E293B;
-  --nav-bg: rgba(11, 15, 25, 0.75);
-  --card-bg: #0F172A;
-  --toggle-bg: #334155;
-  --accent: #38BDF8;
-  --accent-text: #0B0F19;
-  --shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.4);
-  --shadow-hover: 0 10px 30px -4px rgba(0, 0, 0, 0.6);
+  --shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.8);
+  --shadow-hover: 0 15px 50px -5px rgba(0, 0, 0, 0.9);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; transition: background 0.35s, color 0.25s, border-color 0.25s, box-shadow 0.3s; }
 body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; font-weight: 400; overflow-x: hidden; font-size: 15px; }
-canvas#pts { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+canvas#pts { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; opacity: 0.4; }
 nav, section, header, footer, div { position: relative; z-index: 1; }
 
 /* ── NAV ── */
@@ -54,17 +39,11 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 .lb { background: none; border: none; cursor: pointer; font-family: 'Inter', sans-serif; font-size: 0.7rem; font-weight: 600; color: var(--text2); padding: 0.2rem; }
 .lb.on { color: var(--text); border-bottom: 2px solid var(--accent); }
 .lsep { color: var(--border); font-size: 0.7rem; }
-.tt { width: 44px; height: 24px; border-radius: 12px; background: var(--toggle-bg); border: none; cursor: pointer; position: relative; flex-shrink: 0; }
-.tt::after { content: ''; position: absolute; top: 4px; left: 4px; width: 16px; height: 16px; border-radius: 50%; background: var(--text); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-[data-theme="dark"] .tt::after { transform: translateX(20px); background: var(--accent); }
-.nav-cta { background: var(--text); padding: 0.6rem 1.2rem; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--bg); text-decoration: none; border-radius: var(--radius-sm); }
-.nav-cta:hover { opacity: 0.9; transform: translateY(-1px); }
-[data-theme="dark"] .nav-cta { background: var(--accent); color: var(--accent-text); }
 
 /* ── HEADER ── */
 .blog-header { padding: 4rem 3rem 2rem; max-width: 1200px; margin: 0 auto; }
 .blog-header-top { display: flex; justify-content: space-between; align-items: flex-end; }
-.blog-tag { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; display: inline-block; background: var(--bg2); padding: 0.4rem 0.8rem; border-radius: var(--radius-sm); }
+.blog-tag { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text); margin-bottom: 1rem; display: inline-block; background: var(--bg2); padding: 0.4rem 0.8rem; border-radius: var(--radius-sm); border: 1px solid var(--border); }
 .blog-header h1 { font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 800; color: var(--text); letter-spacing: -0.03em; line-height: 1.1; }
 .blog-header h1 em { font-style: normal; font-weight: 300; color: var(--text2); }
 .blog-count { font-size: 0.8rem; font-weight: 500; color: var(--text2); background: var(--card-bg); padding: 0.4rem 0.8rem; border-radius: var(--radius-sm); border: 1px solid var(--border); box-shadow: var(--shadow); }
@@ -79,15 +58,14 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 /* ── MAIN CONTENT AREA ── */
 .seg-block { max-width: 1000px; margin: 0 auto; }
 
-/* ── STAGE DIVIDER ── */
+/* ── STAGE DIVIDER & BADGES (Monocromáticos) ── */
 .stage-divider { display: flex; align-items: center; gap: 1rem; padding: 2rem 3rem 1rem; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text2); }
 .stage-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 .s-badge { display: inline-block; font-size: 0.6rem; padding: 0.3rem 0.8rem; border-radius: 100px; }
-.s-done { background: var(--bg2); color: var(--text2); border: 1px solid var(--border); }
-.s-active { background: rgba(56, 189, 248, 0.1); color: #0284C7; border: 1px solid rgba(56, 189, 248, 0.3); }
-[data-theme="dark"] .s-active { color: #38BDF8; }
+.s-done, .e-done, .ph-status.done { background: var(--bg2); color: var(--text2); border: 1px solid var(--border); }
+.s-active, .e-active, .ph-status.active { background: #222222; color: var(--text); border: 1px solid #555555; }
 
-/* ── ENTRY CARD (Modernizada) ── */
+/* ── ENTRY CARD ── */
 .entry-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; margin: 0 3rem 2.5rem; box-shadow: var(--shadow); }
 .entry-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
 
@@ -113,12 +91,8 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 
 /* Texto del entry */
 .entry-meta-row { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 1rem; flex-wrap: wrap; }
-.e-cat { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text); background: var(--bg2); padding: 0.3rem 0.6rem; border-radius: var(--radius-sm); }
+.e-cat { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text); background: var(--bg2); padding: 0.3rem 0.6rem; border-radius: var(--radius-sm); border: 1px solid var(--border); }
 .e-badge { font-size: 0.6rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.3rem 0.6rem; border-radius: 100px; }
-.e-done { background: rgba(34, 197, 94, 0.1); color: #16A34A; }
-[data-theme="dark"] .e-done { color: #4ADE80; }
-.e-active { background: rgba(56, 189, 248, 0.1); color: #0284C7; }
-[data-theme="dark"] .e-active { color: #38BDF8; }
 .e-date { font-size: 0.7rem; font-weight: 500; color: var(--text2); margin-left: auto; }
 
 .entry-card h2 { font-size: clamp(1.2rem, 2vw, 1.6rem); font-weight: 800; color: var(--text); letter-spacing: -0.02em; line-height: 1.3; margin-bottom: 1rem; }
@@ -134,7 +108,7 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 .video-box { position: relative; width: 100%; aspect-ratio: 9/16; background: #000; overflow: hidden; }
 .video-box video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
 .vc-info { padding: 1.5rem; background: var(--card-bg); }
-.vc-cat { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 0.6rem; }
+.vc-cat { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text); display: block; margin-bottom: 0.6rem; }
 .vc-title { font-size: 1rem; font-weight: 700; color: var(--text); letter-spacing: -0.01em; line-height: 1.4; margin-bottom: 0.8rem; }
 .vc-desc { font-size: 0.85rem; color: var(--text2); line-height: 1.7; }
 
@@ -148,10 +122,6 @@ nav { display: flex; justify-content: space-between; align-items: center; paddin
 .ph-num { font-size: 2rem; font-weight: 800; color: var(--border); letter-spacing: -0.03em; line-height: 1; margin-bottom: 0.8rem; }
 .ph-name { font-size: 0.85rem; font-weight: 700; color: var(--text); margin-bottom: 0.8rem; }
 .ph-status { display: inline-block; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.3rem 0.8rem; border-radius: 100px; }
-.ph-status.done { background: rgba(34, 197, 94, 0.1); color: #16A34A; }
-[data-theme="dark"] .ph-status.done { color: #4ADE80; }
-.ph-status.active { background: rgba(56, 189, 248, 0.1); color: #0284C7; }
-[data-theme="dark"] .ph-status.active { color: #38BDF8; }
 
 /* ── FOOTER ── */
 footer { padding: 2rem 3rem; border-top: 1px solid var(--border); background: var(--nav-bg); display: flex; justify-content: space-between; align-items: center; backdrop-filter: blur(10px); }
@@ -165,7 +135,7 @@ footer { padding: 2rem 3rem; border-top: 1px solid var(--border); background: va
 .fu { opacity: 0; transform: translateY(24px); transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
 .fu.vis { opacity: 1; transform: translateY(0); }
 .hide { display: none !important; }
-code { background: var(--bg2); padding: 0.2rem 0.4rem; border-radius: 4px; font-size: 0.85rem; font-family: monospace; border: 1px solid var(--border); }
+code { background: var(--bg2); padding: 0.2rem 0.4rem; border-radius: 4px; font-size: 0.85rem; font-family: monospace; border: 1px solid var(--border); color: var(--text); }
 
 @media(max-width:860px){
   nav { padding: 1rem; }
@@ -185,14 +155,14 @@ code { background: var(--bg2); padding: 0.2rem 0.4rem; border-radius: 4px; font-
 
 <nav>
   <div class="logo">
-    <img src="assets/velox_fondo_blanco.png" id="nav-logo" alt="Velox Datacenter">
+    <img src="assets/velox_fondo_negro.png" id="nav-logo" alt="Velox Datacenter">
   </div>
   <div class="nav-links">
-    <a href="index.html" class="es">Nosotros</a>
-    <a href="index.html" class="en hide">About</a>
+    <a href="index.html" class="es">Inicio</a>
+    <a href="index.html" class="en hide">Home</a>
     <a href="blog.html" class="active es">Blog</a>
     <a href="blog.html" class="active en hide">Blog</a>
-    <a href="solicitud.html" class="es">Solicitud de ingreso</a>
+    <a href="solicitud.html" class="es">Solicitud</a>
     <a href="solicitud.html" class="en hide">Access Request</a>
   </div>
   <div class="nav-right">
@@ -201,9 +171,6 @@ code { background: var(--bg2); padding: 0.2rem 0.4rem; border-radius: 4px; font-
       <span class="lsep">|</span>
       <button class="lb" id="ben" onclick="setLang('en')">EN</button>
     </div>
-    <button class="tt" onclick="toggleTheme()" aria-label="Toggle theme"></button>
-    <a href="solicitud.html" class="nav-cta es">Solicitar acceso</a>
-    <a href="solicitud.html" class="nav-cta en hide">Request access</a>
   </div>
 </nav>
 
@@ -565,13 +532,14 @@ code { background: var(--bg2); padding: 0.2rem 0.4rem; border-radius: 4px; font-
 </footer>
 
 <script>
+// Animación de puntos de fondo (configurada para fondo oscuro)
 const c=document.getElementById('pts'), x=c.getContext('2d');
 let W, H, p=[];
 function rsz() { W = c.width = window.innerWidth; H = c.height = window.innerHeight; }
 rsz(); window.addEventListener('resize', rsz);
 for(let i=0; i<65; i++) p.push({ x:Math.random()*window.innerWidth, y:Math.random()*window.innerHeight, vx:(Math.random()-.5)*.12, vy:(Math.random()-.5)*.12, r:Math.random()*1.1+.4 });
-function gc() { return document.documentElement.getAttribute('data-theme')==='dark'?'rgba(255,255,255,0.2)':'rgba(15, 23, 42, 0.1)'; }
-function gl(a) { return document.documentElement.getAttribute('data-theme')==='dark'?`rgba(255,255,255,${a})`:`rgba(15, 23, 42,${a})`; }
+function gc() { return 'rgba(255, 255, 255, 0.15)'; } // Puntos blancos sutiles
+function gl(a) { return `rgba(255, 255, 255, ${a})`; } // Líneas blancas sutiles
 function draw() {
   x.clearRect(0,0,W,H);
   for(let i=0; i<p.length; i++) {
@@ -587,18 +555,14 @@ function draw() {
 }
 draw();
 
-function toggleTheme() {
-  const h = document.documentElement;
-  const isDark = h.getAttribute('data-theme') === 'dark';
-  h.setAttribute('data-theme', isDark ? 'light' : 'dark');
-  document.getElementById('nav-logo').src = isDark ? 'assets/velox_fondo_blanco.png' : 'assets/velox_fondo_negro.png';
-}
+// Control de Idioma
 function setLang(l) {
   document.querySelectorAll('.es').forEach(e => e.classList.toggle('hide', l !== 'es'));
   document.querySelectorAll('.en').forEach(e => e.classList.toggle('hide', l !== 'en'));
   document.getElementById('bes').classList.toggle('on', l === 'es');
   document.getElementById('ben').classList.toggle('on', l === 'en');
 }
+
 function filterSec(sec, btn) {
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
@@ -606,6 +570,8 @@ function filterSec(sec, btn) {
     s.style.display = (sec === 'all' || s.dataset.s === sec) ? 'block' : 'none';
   });
 }
+
+// Animación al hacer Scroll
 const ob = new IntersectionObserver(e => e.forEach(i => { if(i.isIntersecting) i.target.classList.add('vis'); }), { threshold: 0.05 });
 document.querySelectorAll('.fu').forEach(e => ob.observe(e));
 </script>
